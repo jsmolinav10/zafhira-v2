@@ -8,8 +8,30 @@ export default function CheckoutPage() {
 
   const handlePayment = (e) => {
     e.preventDefault();
-    // Here we will init Wompi Web Checkout Widget
-    alert("Inicializando pasarela Wompi para " + total + " COP");
+    
+    // Validamos que haya algo en el carrito
+    if (cart.length === 0) {
+      alert("Tu carrito está vacío. Agrega una joya primero.");
+      return;
+    }
+
+    // 1. Calcular Monto en Centavos (Wompi requiere el monto con 2 ceros al final)
+    const amountInCents = total * 100;
+
+    // 2. Generar Referencia Única de Pedido
+    const reference = `ZAFHIRA-${Date.now()}`;
+
+    // 3. Llave Pública (Reemplazar esta de SANDBOX por la real luego)
+    const publicKey = "pub_test_X0zDA9ooKGEidAO2wRmTz3W1t4k2O0d2"; // Ejemplo Sandbox Wompi
+
+    // 4. URL de redirección cuando paguen (a nuestra propia web pública)
+    const redirectUrl = "https://zafhira-v2.vercel.app/";
+
+    // 5. Construir URL de Wompi Web Checkout
+    const wompiCheckoutUrl = `https://checkout.wompi.co/p/?public-key=${publicKey}&currency=COP&amount-in-cents=${amountInCents}&reference=${reference}&redirect-url=${redirectUrl}`;
+
+    // 6. Redirigir al cliente a pagar
+    window.location.href = wompiCheckoutUrl;
   };
 
   if (!isLoaded) return <div style={{ paddingTop: '100px', textAlign: 'center' }}>Cargando...</div>;
