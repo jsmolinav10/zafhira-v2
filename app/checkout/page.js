@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 export default function CheckoutPage() {
-  const { cart, subtotal, clearCart, isLoaded } = useCart()
+  const { cart, subtotal, clearCart, isLoaded, updateQuantity, removeFromCart } = useCart()
   const [shippingMethod, setShippingMethod] = useState('estandar')
   const [uploading, setUploading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -330,9 +330,9 @@ export default function CheckoutPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
             {cart.map(item => (
-              <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div key={item.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--outline-variant)' }}>
                 <div style={{
-                  width: '60px', height: '60px',
+                  width: '70px', height: '70px',
                   backgroundColor: 'var(--surface-container)',
                   border: '1px solid var(--outline)',
                   backgroundImage: item.image ? `url(${item.image})` : 'none',
@@ -340,13 +340,56 @@ export default function CheckoutPage() {
                   flexShrink: 0,
                 }} />
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--on-surface)', fontWeight: 500 }}>{item.name}</p>
-                  {item.size && <p style={{ fontSize: '0.7rem', color: 'var(--on-surface-variant)' }}>Talla/Largo: {item.size}</p>}
-                  <p style={{ fontSize: '0.7rem', color: 'var(--on-surface-variant)' }}>Cantidad: {item.quantity}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--on-surface)', fontWeight: 600, marginBottom: '2px' }}>{item.name}</p>
+                      {item.size && <p style={{ fontSize: '0.75rem', color: 'var(--on-surface-variant)', marginBottom: '4px' }}>Talla/Largo: {item.size}</p>}
+                    </div>
+                    <p style={{ color: 'var(--on-surface)', fontSize: '0.9rem', fontWeight: 600 }}>
+                      $ {(item.price * item.quantity).toLocaleString('es-CO')}
+                    </p>
+                  </div>
+                  
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+                    {/* Quantity Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'var(--surface-container-high)', padding: '4px 8px', borderRadius: '4px' }}>
+                      <button 
+                        type="button"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        style={qtyBtnStyle}
+                      >
+                        −
+                      </button>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600, minWidth: '1.2rem', textAlign: 'center' }}>
+                        {item.quantity}
+                      </span>
+                      <button 
+                        type="button"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        style={qtyBtnStyle}
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button 
+                      type="button"
+                      onClick={() => removeFromCart(item.id)}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#ff6b6b',
+                        fontSize: '0.75rem',
+                        cursor: 'pointer',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        padding: '4px'
+                      }}
+                    >
+                      Remover
+                    </button>
+                  </div>
                 </div>
-                <p style={{ color: 'var(--on-surface)', fontSize: '0.85rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
-                  $ {(item.price * item.quantity).toLocaleString('es-CO')}
-                </p>
               </div>
             ))}
           </div>
@@ -406,4 +449,18 @@ const inputStyle = {
   color: 'var(--on-surface)',
   fontSize: '0.85rem',
   outline: 'none',
+}
+
+const qtyBtnStyle = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--on-surface)',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  width: '24px',
+  height: '24px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 0,
 }
