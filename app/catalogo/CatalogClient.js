@@ -22,7 +22,8 @@ export default function CatalogClient({ initialCatalog }) {
     subtitle: p.description || "Pieza de Autor",
     price: p.price,
     category: p.category,
-    image: p.image_url
+    image: p.image_url,
+    status: p.status || 'disponible'
   }))
 
   const showToast = useCallback((msg) => {
@@ -34,6 +35,7 @@ export default function CatalogClient({ initialCatalog }) {
   const filtered = active === "Todos" ? mappedCatalog : mappedCatalog.filter(p => p.category === active);
 
   const handleAdd = (p) => {
+    if (p.status === 'agotado') return;
     addToCart({ id: p.id, name: p.name, price: p.price });
     showToast(`${p.name} añadido.`);
   };
@@ -96,7 +98,7 @@ export default function CatalogClient({ initialCatalog }) {
               Aún no hay piezas disponibles en esta categoría.
             </div>
           ) : filtered.map((product, i) => (
-            <div key={product.id} className={`product-card fade-in stagger-${(i % 4) + 1}`}>
+            <div key={product.id} className={`product-card fade-in stagger-${(i % 4) + 1}`} style={{ display: 'flex', flexDirection: 'column' }}>
               <div style={{
                 width: '100%',
                 aspectRatio: '1 / 1.15',
@@ -113,22 +115,51 @@ export default function CatalogClient({ initialCatalog }) {
                 ) : (
                   <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.8rem', letterSpacing: '0.05em' }}>[ Fotografía ]</div>
                 )}
-                
-                <div className="hover-action">
-                  <button className="btn-primary w-full" onClick={() => handleAdd(product)}>
-                    Adquirir
-                  </button>
-                </div>
+
+                {/* Badge AGOTADO */}
+                {product.status === 'agotado' && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    background: '#ff4444',
+                    color: '#fff',
+                    padding: '4px 12px',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                  }}>AGOTADO</div>
+                )}
               </div>
-              <div style={{ padding: '1.25rem 0' }}>
+
+              {/* Info + Button section */}
+              <div style={{ padding: '1.25rem 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--on-surface)', fontSize: '1rem', marginBottom: '0.25rem', letterSpacing: '0.05em' }}>
                   {product.name}
                 </h3>
                 <p style={{ color: 'var(--on-surface-variant)', fontSize: '0.75rem', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>
                   {product.subtitle}
                 </p>
-                <div style={{ color: 'var(--primary)', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em' }}>
-                  ${product.price.toLocaleString('es-CO')}
+
+                {/* Price + Button row */}
+                <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                  <div style={{ color: 'var(--primary)', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em', fontSize: '1.1rem' }}>
+                    ${product.price.toLocaleString('es-CO')}
+                  </div>
+                  <button
+                    className="btn-primary"
+                    onClick={() => handleAdd(product)}
+                    disabled={product.status === 'agotado'}
+                    style={{
+                      padding: '10px 24px',
+                      fontSize: '0.7rem',
+                      opacity: product.status === 'agotado' ? 0.4 : 1,
+                      cursor: product.status === 'agotado' ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    {product.status === 'agotado' ? 'Agotado' : 'Adquirir'}
+                  </button>
                 </div>
               </div>
             </div>

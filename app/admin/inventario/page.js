@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import InventoryActions from './InventoryActions'
 
 async function uploadProduct(formData) {
   'use server'
@@ -9,7 +10,8 @@ async function uploadProduct(formData) {
   const description = formData.get('description')
   const price = formData.get('price')
   const category = formData.get('category')
-  const imageFile = formData.get('image') // Get the file from FormData
+  const status = formData.get('status') || 'disponible'
+  const imageFile = formData.get('image')
 
   let image_url = '/placeholder-ring.webp'
 
@@ -17,7 +19,6 @@ async function uploadProduct(formData) {
     const fileExt = imageFile.name.split('.').pop()
     const fileName = `${Math.random()}.${fileExt}`
     
-    // Upload image to Supabase Storage 'productos' bucket
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('productos')
       .upload(fileName, imageFile, {
@@ -26,7 +27,6 @@ async function uploadProduct(formData) {
       })
 
     if (!uploadError) {
-      // Get the public URL for the uploaded image
       const { data } = supabase.storage
         .from('productos')
         .getPublicUrl(fileName)
@@ -39,7 +39,31 @@ async function uploadProduct(formData) {
 
   const { error } = await supabase
     .from('products')
-    .insert([{ title, description, price: parseFloat(price), category, image_url }])
+    .insert([{ title, description, price: parseFloat(price), category, image_url, status }])
+
+  revalidatePath('/catalogo')
+  revalidatePath('/admin/inventario')
+}
+
+async function deleteProduct(formData) {
+  'use server'
+  const supabase = await createClient()
+  const id = formData.get('id')
+
+  await supabase.from('products').delete().eq('id', id)
+
+  revalidatePath('/catalogo')
+  revalidatePath('/admin/inventario')
+}
+
+async function toggleStatus(formData) {
+  'use server'
+  const supabase = await createClient()
+  const id = formData.get('id')
+  const currentStatus = formData.get('currentStatus')
+  const newStatus = currentStatus === 'disponible' ? 'agotado' : 'disponible'
+
+  await supabase.from('products').update({ status: newStatus }).eq('id', id)
 
   revalidatePath('/catalogo')
   revalidatePath('/admin/inventario')
@@ -48,7 +72,6 @@ async function uploadProduct(formData) {
 export default async function InventoryPage() {
   const supabase = await createClient()
   
-  // Fetch existing products
   const { data: products } = await supabase.from('products').select('*').order('created_at', { ascending: false })
 
   return (
@@ -88,6 +111,16 @@ export default async function InventoryPage() {
               <input type="file" name="image" accept="image/*" required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
             </div>
 
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+              <div>
+                <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Estado</label>
+                <select name="status" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
+                  <option value="disponible">✅ Disponible</option>
+                  <option value="agotado">🔴 Agotado</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Descripción</label>
               <textarea name="description" rows={3} style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)', resize: 'vertical' }} />
@@ -116,15 +149,33 @@ export default async function InventoryPage() {
                          backgroundImage: p.image_url ? `url(${p.image_url})` : 'none',
                          backgroundSize: 'cover',
                          backgroundPosition: 'center',
-                         borderRadius: '4px'
+                         borderRadius: '4px',
+                         flexShrink: 0
                        }} />
                        <div>
-                         <div style={{ fontWeight: 600, color: 'var(--on-surface)', fontSize: '0.9rem' }}>{p.title}</div>
+                         <div style={{ fontWeight: 600, color: 'var(--on-surface)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                           {p.title}
+                           <span style={{ 
+                             fontSize: '0.6rem', 
+                             padding: '2px 8px', 
+                             background: p.status === 'agotado' ? 'rgba(255,68,68,0.15)' : 'rgba(81,207,102,0.15)', 
+                             color: p.status === 'agotado' ? '#ff4444' : '#51cf66',
+                             borderRadius: '2px',
+                             fontWeight: 700,
+                             textTransform: 'uppercase',
+                             letterSpacing: '0.05em'
+                           }}>
+                             {p.status === 'agotado' ? 'Agotado' : 'En Stock'}
+                           </span>
+                         </div>
                          <div style={{ fontSize: '0.75rem', color: 'var(--on-surface-variant)' }}>{p.category}</div>
                        </div>
                     </div>
-                    <div style={{ fontWeight: 500, color: 'var(--primary)', fontFamily: 'var(--font-heading)' }}>
-                       ${p.price.toLocaleString('es-CO')}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div style={{ fontWeight: 500, color: 'var(--primary)', fontFamily: 'var(--font-heading)', whiteSpace: 'nowrap' }}>
+                         ${p.price.toLocaleString('es-CO')}
+                      </div>
+                      <InventoryActions product={p} toggleStatusAction={toggleStatus} deleteAction={deleteProduct} />
                     </div>
                   </div>
                 ))
