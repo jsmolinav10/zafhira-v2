@@ -5,12 +5,37 @@ async function uploadProduct(formData) {
   'use server'
   const supabase = await createClient()
 
-  // In a real flow, we would upload images to Supabase Storage first.
   const title = formData.get('title')
   const description = formData.get('description')
   const price = formData.get('price')
   const category = formData.get('category')
-  const image_url = formData.get('image_url') || '/placeholder-ring.webp'
+  const imageFile = formData.get('image') // Get the file from FormData
+
+  let image_url = '/placeholder-ring.webp'
+
+  if (imageFile && imageFile.size > 0) {
+    const fileExt = imageFile.name.split('.').pop()
+    const fileName = `${Math.random()}.${fileExt}`
+    
+    // Upload image to Supabase Storage 'productos' bucket
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('productos')
+      .upload(fileName, imageFile, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (!uploadError) {
+      // Get the public URL for the uploaded image
+      const { data } = supabase.storage
+        .from('productos')
+        .getPublicUrl(fileName)
+        
+      image_url = data.publicUrl
+    } else {
+      console.error('Error uploading image:', uploadError)
+    }
+  }
 
   const { error } = await supabase
     .from('products')
@@ -59,6 +84,11 @@ export default async function InventoryPage() {
             </div>
 
             <div>
+              <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Imagen de la Joya</label>
+              <input type="file" name="image" accept="image/*" required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
+            </div>
+
+            <div>
               <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Descripción</label>
               <textarea name="description" rows={3} style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)', resize: 'vertical' }} />
             </div>
@@ -79,7 +109,15 @@ export default async function InventoryPage() {
                 products.map(p => (
                   <div key={p.id} className="panel-elevated" style={{ padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                       <div style={{ width: '50px', height: '50px', background: 'var(--surface-container)', border: '1px solid var(--outline)' }} />
+                       <div style={{ 
+                         width: '50px', height: '50px', 
+                         background: 'var(--surface-container)', 
+                         border: '1px solid var(--outline)',
+                         backgroundImage: p.image_url ? `url(${p.image_url})` : 'none',
+                         backgroundSize: 'cover',
+                         backgroundPosition: 'center',
+                         borderRadius: '4px'
+                       }} />
                        <div>
                          <div style={{ fontWeight: 600, color: 'var(--on-surface)', fontSize: '0.9rem' }}>{p.title}</div>
                          <div style={{ fontSize: '0.75rem', color: 'var(--on-surface-variant)' }}>{p.category}</div>
