@@ -96,8 +96,8 @@ export default async function InventoryPage() {
                 <select name="category" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
                   <option value="Collares">Collares</option>
                   <option value="Anillos">Anillos</option>
-                  <option value="Pulseras">Pulseras</option>
-                  <option value="Aretes">Aretes</option>
+                  <option value="Brazaletes">Brazaletes</option>
+                  <option value="Pendientes">Pendientes</option>
                 </select>
               </div>
               <div>

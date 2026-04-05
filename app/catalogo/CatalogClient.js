@@ -32,7 +32,9 @@ export default function CatalogClient({ initialCatalog }) {
     setTimeout(() => setToastVisible(false), 2500);
   }, []);
 
-  const filtered = active === "Todos" ? mappedCatalog : mappedCatalog.filter(p => p.category === active);
+  const filtered = active === "Todos" 
+    ? mappedCatalog 
+    : mappedCatalog.filter(p => p.category?.toLowerCase().trim() === active.toLowerCase().trim());
 
   const handleAdd = (p) => {
     if (p.status === 'agotado') return;
@@ -81,7 +83,7 @@ export default function CatalogClient({ initialCatalog }) {
               }}
             >
               {cat} {cat !== "Todos" && <span style={{ opacity: 0.5, marginLeft: '6px' }}>
-                {mappedCatalog.filter(p => cat === "Todos" || p.category === cat).length.toString().padStart(2, '0')}
+                {mappedCatalog.filter(p => p.category?.toLowerCase().trim() === cat.toLowerCase().trim()).length.toString().padStart(2, '0')}
               </span>}
             </button>
           ))}
