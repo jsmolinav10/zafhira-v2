@@ -37,9 +37,16 @@ async function uploadProduct(formData) {
     }
   }
 
+  const is_featured = formData.get('is_featured') === 'on'
+
   const { error } = await supabase
     .from('products')
-    .insert([{ title, description, price: parseFloat(price), category, image_url, status }])
+    .insert([{ title, description, price: parseFloat(price.toString().replace(/\./g, '')), category, image_url, status, is_featured }])
+
+  if (error) {
+    console.error('Error inserting product:', error)
+    // En una aplicación real usaríamos useFormState, pero por ahora asegurémonos de que el proceso sea limpio
+  }
 
   revalidatePath('/catalogo')
   revalidatePath('/admin/inventario')
@@ -66,6 +73,18 @@ async function toggleStatus(formData) {
   await supabase.from('products').update({ status: newStatus }).eq('id', id)
 
   revalidatePath('/catalogo')
+  revalidatePath('/admin/inventario')
+}
+
+async function toggleFeatured(formData) {
+  'use server'
+  const supabase = await createClient()
+  const id = formData.get('id')
+  const current = formData.get('currentFeatured') === 'true'
+
+  await supabase.from('products').update({ is_featured: !current }).eq('id', id)
+
+  revalidatePath('/')
   revalidatePath('/admin/inventario')
 }
 
@@ -119,6 +138,12 @@ export default async function InventoryPage() {
                   <option value="agotado">🔴 Agotado</option>
                 </select>
               </div>
+              <div style={{ display: 'flex', alignItems: 'center', paddingTop: '18px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', color: 'var(--on-surface)' }}>
+                  <input type="checkbox" name="is_featured" style={{ accentColor: 'var(--primary)', width: '18px', height: '18px' }} />
+                  ⭐ Destacar en Portada
+                </label>
+              </div>
             </div>
 
             <div>
@@ -154,20 +179,21 @@ export default async function InventoryPage() {
                        }} />
                        <div>
                          <div style={{ fontWeight: 600, color: 'var(--on-surface)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                           {p.title}
-                           <span style={{ 
-                             fontSize: '0.6rem', 
-                             padding: '2px 8px', 
-                             background: p.status === 'agotado' ? 'rgba(255,68,68,0.15)' : 'rgba(81,207,102,0.15)', 
-                             color: p.status === 'agotado' ? '#ff4444' : '#51cf66',
-                             borderRadius: '2px',
-                             fontWeight: 700,
-                             textTransform: 'uppercase',
-                             letterSpacing: '0.05em'
-                           }}>
-                             {p.status === 'agotado' ? 'Agotado' : 'En Stock'}
-                           </span>
-                         </div>
+                            {p.is_featured && <span title="Destacada en portada">⭐</span>}
+                            {p.title}
+                            <span style={{ 
+                              fontSize: '0.6rem', 
+                              padding: '2px 8px', 
+                              background: p.status === 'agotado' ? 'rgba(255,68,68,0.15)' : 'rgba(81,207,102,0.15)', 
+                              color: p.status === 'agotado' ? '#ff4444' : '#51cf66',
+                              borderRadius: '2px',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.05em'
+                            }}>
+                              {p.status === 'agotado' ? 'Agotado' : 'En Stock'}
+                            </span>
+                          </div>
                          <div style={{ fontSize: '0.75rem', color: 'var(--on-surface-variant)' }}>{p.category}</div>
                        </div>
                     </div>
@@ -175,7 +201,7 @@ export default async function InventoryPage() {
                       <div style={{ fontWeight: 500, color: 'var(--primary)', fontFamily: 'var(--font-heading)', whiteSpace: 'nowrap' }}>
                          ${p.price.toLocaleString('es-CO')}
                       </div>
-                      <InventoryActions product={p} toggleStatusAction={toggleStatus} deleteAction={deleteProduct} />
+                       <InventoryActions product={p} toggleStatusAction={toggleStatus} deleteAction={deleteProduct} toggleFeaturedAction={toggleFeatured} />
                     </div>
                   </div>
                 ))

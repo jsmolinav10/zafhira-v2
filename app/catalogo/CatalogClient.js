@@ -2,6 +2,7 @@
 
 import { useCart } from "../../context/CartContext";
 import { useState, useCallback } from "react";
+import Link from "next/link";
 
 const CATEGORIES = ["Todos", "Anillos", "Collares", "Brazaletes", "Pendientes"];
 
@@ -101,6 +102,7 @@ export default function CatalogClient({ initialCatalog }) {
             </div>
           ) : filtered.map((product, i) => (
             <div key={product.id} className={`product-card fade-in stagger-${(i % 4) + 1}`} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Link href={`/catalogo/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{
                 width: '100%',
                 aspectRatio: '1 / 1.15',
@@ -134,6 +136,7 @@ export default function CatalogClient({ initialCatalog }) {
                   }}>AGOTADO</div>
                 )}
               </div>
+              </Link>
 
               {/* Info + Button section */}
               <div style={{ padding: '1.25rem 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
