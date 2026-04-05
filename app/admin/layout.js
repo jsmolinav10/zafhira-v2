@@ -39,6 +39,9 @@ export default async function AdminLayout({ children }) {
           <Link href="/admin/orfebres" style={{ display: 'block', padding: '10px 16px', color: 'var(--on-surface-variant)', textDecoration: 'none' }}>
             <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>Acceso Orfebres</span>
           </Link>
+          <Link href="/admin/perfil" style={{ display: 'block', padding: '10px 16px', color: 'var(--on-surface-variant)', textDecoration: 'none' }}>
+            <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>Perfil / Seguridad</span>
+          </Link>
         </nav>
 
         <div style={{ padding: '1.5rem', borderTop: '1px solid var(--outline)', fontSize: '0.75rem', color: 'var(--on-surface-variant)' }}>
