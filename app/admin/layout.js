@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export const metadata = {
@@ -8,15 +7,12 @@ export const metadata = {
 
 export default async function AdminLayout({ children }) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  // Get user
-  const { data: { user }, error } = await supabase.auth.getUser()
-
-  if (error || !user) {
-    redirect('/admin/login')
+  // If no user, render children without sidebar (login page will handle itself)
+  if (!user) {
+    return <>{children}</>
   }
-
-  // TODO: Check if user role is superadmin or orfebre here
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-base)' }}>
