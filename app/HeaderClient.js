@@ -1,10 +1,12 @@
 "use client";
 
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 
 export default function HeaderClient() {
-  const { cart, isLoaded } = useCart();
+  const { cart, isLoaded: cartLoaded } = useCart();
+  const { user, loginWithGoogle, logout, loading: authLoading } = useAuth();
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
@@ -16,31 +18,27 @@ export default function HeaderClient() {
         <Link href="/contacto">Contacto</Link>
       </nav>
       
-      <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', transition: 'transform 0.3s var(--ease-out)' }}>
+      <Link href="/" className="logo center-logo">
         <img 
-          src="/assets/logo_zafhira.png" 
+          src="/assets/logo_zafhira_new.png" 
           alt="Zafhira" 
-          style={{ height: '70px', width: 'auto', objectFit: 'contain', transition: 'transform 0.3s ease' }} 
           className="logo-img"
         />
       </Link>
 
       <nav>
+        {!authLoading && (
+          user ? (
+            <button onClick={logout} className="nav-btn">CERRAR SESIÓN</button>
+          ) : (
+            <button onClick={loginWithGoogle} className="nav-btn">MI CUENTA</button>
+          )
+        )}
+
         <Link href="/checkout" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           CARRITO 
-          {isLoaded && itemCount > 0 && (
-            <span style={{ 
-              background: 'var(--primary)', 
-              color: 'var(--on-primary)', 
-              borderRadius: '50%', 
-              width: '18px', 
-              height: '18px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              fontSize: '0.65rem',
-              fontWeight: '700'
-            }}>
+          {cartLoaded && itemCount > 0 && (
+            <span className="cart-badge">
               {itemCount}
             </span>
           )}

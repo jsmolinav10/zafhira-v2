@@ -83,11 +83,12 @@ export default function ProductDetailClient({ product, related }) {
           <div>
             <div style={{
               width: '100%',
-              aspectRatio: '1 / 1.1',
+              height: 'calc(100vh - 120px)', // Very large, editorial full-bleed height
+              minHeight: '600px',
               backgroundColor: 'var(--surface-container)',
-              border: '1px solid var(--outline)',
               overflow: 'hidden',
               position: 'relative',
+              borderRadius: '0', // Sharp luxury edges
             }}>
               {product.image_url ? (
                 <img src={product.image_url} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

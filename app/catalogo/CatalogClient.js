@@ -91,22 +91,23 @@ export default function CatalogClient({ initialCatalog }) {
           ))}
         </div>
 
-        {/* Product Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '1.5rem',
+        {/* Product Grid - Asymmetrical Masonry */}
+        <div className="masonry-grid" style={{
+          columnCount: 3,
+          columnGap: '2rem',
+          margin: '0 auto',
         }}>
           {filtered.length === 0 ? (
             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '4rem', color: 'var(--on-surface-variant)' }}>
               Aún no hay piezas disponibles en esta categoría.
             </div>
           ) : filtered.map((product, i) => (
-            <div key={product.id} className={`product-card fade-in stagger-${(i % 4) + 1}`} style={{ display: 'flex', flexDirection: 'column' }}>
+            <div key={product.id} className={`product-card fade-in stagger-${(i % 4) + 1}`} style={{ display: 'flex', flexDirection: 'column', breakInside: 'avoid', marginBottom: '2rem' }}>
               <Link href={`/catalogo/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{
                 width: '100%',
-                aspectRatio: '1 / 1.15',
+                // Removed fixed aspect-ratio to allow natural/asymmetrical heights
+                minHeight: (i % 3 === 0) ? '380px' : (i % 2 === 0) ? '300px' : '420px',
                 backgroundColor: 'var(--surface-container)',
                 border: '1px solid var(--outline)',
                 display: 'flex',

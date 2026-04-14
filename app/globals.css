@@ -118,13 +118,13 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   font-style: italic;
 }
 
-/* === BUTTONS: Strictly 0px Radius === */
+/* === BUTTONS: Luxury Pill Shape === */
 .btn-primary {
   display: inline-block;
   background: var(--primary);
   color: var(--on-primary);
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
   padding: 16px 40px;
   font-family: 'Manrope', sans-serif;
   font-size: 0.85rem;
@@ -132,16 +132,19 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: filter 200ms var(--ease-out), transform 160ms var(--ease-out);
+  transition: filter 200ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 300ms var(--ease-out);
 }
 
 .btn-primary:active {
   transform: scale(0.97);
 }
 
-.btn-primary:hover {
-  filter: brightness(1.15);
-  color: var(--on-primary) !important; /* Ensure text stays dark and legible */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    filter: brightness(1.15);
+    color: var(--on-primary) !important;
+    box-shadow: 0 4px 24px rgba(212, 175, 55, 0.45), 0 2px 8px rgba(212, 175, 55, 0.25);
+  }
 }
 
 .btn-ghost {
@@ -204,10 +207,10 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   left: 0;
   width: 100%;
   z-index: 100;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 0.6rem 6%;
+  padding: 0.5rem 6%;
   background: rgba(5, 10, 31, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -217,6 +220,54 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .glass-header nav {
   display: flex;
   gap: 2.5rem;
+  align-items: center;
+}
+
+.glass-header nav:last-child {
+  justify-content: flex-end;
+}
+
+.center-logo {
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.logo-img {
+  height: 90px; /* Increased from 70px to make it larger as requested */
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-btn:hover {
+  color: var(--primary);
+}
+
+.cart-badge {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
 }
 
 .glass-header nav a {
@@ -229,8 +280,10 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   transition: color 0.3s ease;
 }
 
-.glass-header nav a:hover {
-  color: var(--primary);
+@media (hover: hover) and (pointer: fine) {
+  .glass-header nav a:hover {
+    color: var(--primary);
+  }
 }
 
 .glass-header .logo {
@@ -244,13 +297,16 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .product-card {
   background-color: var(--surface-low);
   overflow: hidden;
-  transition: background-color 250ms var(--ease-out), transform 250ms var(--ease-out), filter 250ms var(--ease-out);
+  transition: background-color 250ms var(--ease-out), transform 250ms var(--ease-out), box-shadow 300ms var(--ease-out);
   cursor: pointer;
 }
 
-.product-card:hover {
-  background-color: var(--surface-high);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover {
+    background-color: var(--surface-high);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(212, 175, 55, 0.1);
+  }
 }
 
 .product-card:active {
@@ -289,7 +345,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   margin-bottom: 4px;
 }
 
-/* === TOAST NOTIFICATION (replaces alert) === */
+/* === TOAST NOTIFICATION — Sonner Principles === */
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -301,14 +357,18 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   font-size: 0.9rem;
   z-index: 9999;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
+  transform: translateY(20px) scale(0.97);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
   border-left: 3px solid var(--primary);
+  border-radius: 4px;
+  backdrop-filter: blur(12px);
+  pointer-events: none;
 }
 
 .toast.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 /* === FOOTER === */
