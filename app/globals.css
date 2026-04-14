@@ -33,6 +33,11 @@
   /* --- Semantic --- */
   --secondary: #C0C5E2;
   --tertiary: #E7BEA5;
+
+  /* --- Motion Tokens (Emil Kowalski Philosophy) --- */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* === RESET === */
@@ -60,7 +65,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 200ms var(--ease-out);
 }
 
 a:hover {
@@ -127,12 +132,15 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: filter 0.4s ease, transform 0.3s ease;
+  transition: filter 200ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 .btn-primary:hover {
   filter: brightness(1.15);
-  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -148,7 +156,11 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
 }
 
 .btn-ghost:hover {
@@ -231,13 +243,17 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .product-card {
   background-color: var(--surface-low);
   overflow: hidden;
-  transition: background-color 0.4s ease, transform 0.4s ease;
+  transition: background-color 250ms var(--ease-out), transform 250ms var(--ease-out), filter 250ms var(--ease-out);
   cursor: pointer;
 }
 
 .product-card:hover {
   background-color: var(--surface-high);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+}
+
+.product-card:active {
+  transform: scale(0.985);
 }
 
 .product-card .card-image {
@@ -439,21 +455,27 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 /* === TRANSITIONS: Deliberate & Heavy (400ms+) === */
 .fade-in {
-  animation: fadeInUp 0.6s ease forwards;
-}
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
 
-@keyframes fadeInUp {
-  from {
+  @starting-style {
     opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: scale(0.98);
   }
 }
 
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.25s; }
-.stagger-3 { animation-delay: 0.4s; }
-.stagger-4 { animation-delay: 0.55s; }
+/* Page Level Entrance */
+.page-enter {
+  opacity: 1;
+  transition: opacity 400ms var(--ease-out);
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.stagger-1 { transition-delay: 50ms; }
+.stagger-2 { transition-delay: 100ms; }
+.stagger-3 { transition-delay: 150ms; }
+.stagger-4 { transition-delay: 200ms; }
+.stagger-5 { transition-delay: 250ms; }

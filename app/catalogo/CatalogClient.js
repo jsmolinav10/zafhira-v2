@@ -44,7 +44,7 @@ export default function CatalogClient({ initialCatalog }) {
   };
 
   return (
-    <>
+    <div className="page-enter">
       <Toast message={toastMsg} visible={toastVisible} />
 
       <section style={{ padding: '3rem 6%', maxWidth: '1400px', margin: '0 auto' }}>
@@ -80,8 +80,9 @@ export default function CatalogClient({ initialCatalog }) {
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'background 200ms var(--ease-out), color 200ms var(--ease-out), transform 160ms var(--ease-out)',
               }}
+              className="btn"
             >
               {cat} {cat !== "Todos" && <span style={{ opacity: 0.5, marginLeft: '6px' }}>
                 {mappedCatalog.filter(p => p.category?.toLowerCase().trim() === cat.toLowerCase().trim()).length.toString().padStart(2, '0')}
@@ -195,6 +196,6 @@ export default function CatalogClient({ initialCatalog }) {
           transform: translateY(0);
         }
       `}</style>
-    </>
+    </div>
   );
 }

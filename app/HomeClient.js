@@ -30,7 +30,7 @@ export default function HomeClient({ featured }) {
   };
 
   return (
-    <>
+    <div className="page-enter">
       <Toast message={toastMsg} visible={toastVisible} />
 
       {/* ===== HERO SECTION ===== */}
@@ -183,6 +183,9 @@ export default function HomeClient({ featured }) {
 
       {/* ===== RESPONSIVE ===== */}
       <style jsx>{`
+        .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .product-card:active { transform: translateY(-2px); }
         @media (max-width: 768px) {
           section:nth-of-type(2) {
             grid-template-columns: 1fr !important;

@@ -17,6 +17,16 @@ export default function ProductDetailClient({ product, related }) {
   const [toastVisible, setToastVisible] = useState(false)
   const [selectedSize, setSelectedSize] = useState(null)
   const [activeTab, setActiveTab] = useState('detalles')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const handleTabChange = (tab) => {
+    if (tab === activeTab) return
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setActiveTab(tab)
+      setIsTransitioning(false)
+    }, 150)
+  }
 
   const isRing = product.category?.toLowerCase() === 'anillos'
   const isNecklace = product.category?.toLowerCase() === 'collares'
@@ -53,7 +63,7 @@ export default function ProductDetailClient({ product, related }) {
   }
 
   return (
-    <>
+    <div className="page-enter">
       <Toast message={toastMsg} visible={toastVisible} />
 
       <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 6%' }}>
@@ -135,8 +145,10 @@ export default function ProductDetailClient({ product, related }) {
                         fontSize: '0.8rem',
                         fontWeight: selectedSize === size ? 600 : 400,
                         letterSpacing: '0.05em',
-                        transition: 'all 0.2s ease',
+                        letterSpacing: '0.05em',
+                        transition: 'border-color 200ms var(--ease-out), background 200ms var(--ease-out), color 200ms var(--ease-out), transform 160ms var(--ease-out)',
                       }}
+                      className="btn"
                     >
                       {size}
                     </button>
@@ -169,7 +181,7 @@ export default function ProductDetailClient({ product, related }) {
                 {['detalles', 'materiales', 'envio'].map(tab => (
                   <button
                     key={tab}
-                    onClick={() => setActiveTab(tab)}
+                    onClick={() => handleTabChange(tab)}
                     style={{
                       flex: 1,
                       padding: '14px 0',
@@ -182,14 +194,22 @@ export default function ProductDetailClient({ product, related }) {
                       fontWeight: 500,
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
-                      transition: 'all 0.2s ease',
+                      transition: 'color 200ms var(--ease-out), border-color 200ms var(--ease-out)',
                     }}
                   >
                     {tab === 'envio' ? 'Envío' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </button>
                 ))}
               </div>
-              <p style={{ padding: '1.5rem 0', color: 'var(--on-surface-variant)', fontSize: '0.85rem', lineHeight: '1.8' }}>
+              <p style={{ 
+                padding: '1.5rem 0', 
+                color: 'var(--on-surface-variant)', 
+                fontSize: '0.85rem', 
+                lineHeight: '1.8',
+                transition: 'filter 250ms var(--ease-out), opacity 250ms var(--ease-out)',
+                filter: isTransitioning ? 'blur(2px)' : 'none',
+                opacity: isTransitioning ? 0.6 : 1,
+              }}>
                 {tabs[activeTab]}
               </p>
             </div>
@@ -255,6 +275,6 @@ export default function ProductDetailClient({ product, related }) {
           }
         }
       `}</style>
-    </>
+    </div>
   )
 }

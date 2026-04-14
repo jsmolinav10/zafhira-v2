@@ -168,7 +168,8 @@ export default function CheckoutPage() {
   }
 
   return (
-    <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 6%' }}>
+    <div className="page-enter">
+      <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 6%' }}>
       <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--on-surface)', fontSize: '2rem', marginBottom: '0.5rem', textAlign: 'center' }}>
         Finalizar Compra
       </h1>
@@ -246,7 +247,7 @@ export default function CheckoutPage() {
                       type="radio" name="shipping" value={opt.value}
                       checked={shippingMethod === opt.value}
                       onChange={(e) => setShippingMethod(e.target.value)}
-                      style={{ accentColor: 'var(--primary)' }}
+                      style={{ accentColor: 'var(--primary)', cursor: 'pointer' }}
                     />
                     <span style={{ color: 'var(--on-surface)', fontSize: '0.85rem' }}>{opt.label}</span>
                   </div>
@@ -357,6 +358,7 @@ export default function CheckoutPage() {
                         type="button"
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         style={qtyBtnStyle}
+                        className="btn"
                       >
                         −
                       </button>
@@ -367,6 +369,7 @@ export default function CheckoutPage() {
                         type="button"
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         style={qtyBtnStyle}
+                        className="btn"
                       >
                         +
                       </button>
@@ -431,6 +434,12 @@ export default function CheckoutPage() {
       </form>
 
       <style jsx>{`
+        .panel-elevated label {
+           transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out), transform 160ms var(--ease-out);
+        }
+        .panel-elevated label:active {
+           transform: scale(0.99);
+        }
         @media (max-width: 768px) {
           form {
             grid-template-columns: 1fr !important;
@@ -438,6 +447,7 @@ export default function CheckoutPage() {
         }
       `}</style>
     </section>
+    </div>
   )
 }
 
