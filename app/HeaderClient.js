@@ -20,7 +20,8 @@ export default function HeaderClient() {
         <img 
           src="/assets/logo_zafhira.png" 
           alt="Zafhira" 
-          style={{ height: '100px', width: 'auto', objectFit: 'contain' }} 
+          style={{ height: '70px', width: 'auto', objectFit: 'contain', transition: 'transform 0.3s ease' }} 
+          className="logo-img"
         />
       </Link>
 

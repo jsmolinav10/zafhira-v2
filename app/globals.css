@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 6%;
+  padding: 0.6rem 6%;
   background: rgba(5, 10, 31, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
