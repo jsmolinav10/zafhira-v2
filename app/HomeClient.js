@@ -197,6 +197,6 @@ export default function HomeClient({ featured }) {
           }
         }
       `}</style>
-    </>
+    </div>
   );
 }
