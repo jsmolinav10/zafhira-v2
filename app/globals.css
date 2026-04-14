@@ -234,9 +234,10 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 .logo-img {
-  height: 90px; /* Increased from 70px to make it larger as requested */
+  height: 180px; 
   width: auto;
   object-fit: contain;
+  margin: -40px 0;
   transition: transform 0.3s ease;
 }
 

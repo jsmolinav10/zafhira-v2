@@ -23,6 +23,11 @@ export function AuthProvider({ children }) {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Error signing in with Google", error);
+      if (error.code === 'auth/invalid-api-key') {
+        alert("Atención: Necesitas reemplazar las credenciales falsas en .env.local por las llaves reales de tu proyecto de Firebase para que el Login con Google funcione.");
+      } else {
+        alert("Ocurrió un error al intentar iniciar sesión con Google.");
+      }
     }
   };
 

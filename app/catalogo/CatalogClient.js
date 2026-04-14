@@ -47,7 +47,7 @@ export default function CatalogClient({ initialCatalog }) {
     <div className="page-enter">
       <Toast message={toastMsg} visible={toastVisible} />
 
-      <section style={{ padding: '3rem 6%', maxWidth: '1400px', margin: '0 auto' }}>
+      <section style={{ padding: '3rem 6%', maxWidth: '1000px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h1 className="text-display font-serif fade-in">Catálogo</h1>
@@ -107,7 +107,7 @@ export default function CatalogClient({ initialCatalog }) {
               <div style={{
                 width: '100%',
                 // Removed fixed aspect-ratio to allow natural/asymmetrical heights
-                minHeight: (i % 3 === 0) ? '380px' : (i % 2 === 0) ? '300px' : '420px',
+                minHeight: (i % 3 === 0) ? '250px' : (i % 2 === 0) ? '320px' : '280px',
                 backgroundColor: 'var(--surface-container)',
                 border: '1px solid var(--outline)',
                 display: 'flex',
