@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
               </div>
               <div className="footer-links">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-                  <img src="/assets/monograma.jpg" alt="Zafhira Seal" style={{ width: '60px', borderRadius: '50%', filter: 'grayscale(0.2) contrast(1.1)' }} />
+                  <img src="/assets/monograma.jpg" alt="Zafhira Seal" style={{ width: '120px', borderRadius: '50%', filter: 'grayscale(0.2) contrast(1.1)' }} />
                   <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--primary)', fontWeight: '600' }}>SELLO DE AUTOR</span>
                 </div>
               </div>

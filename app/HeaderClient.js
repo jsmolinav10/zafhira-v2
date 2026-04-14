@@ -16,11 +16,11 @@ export default function HeaderClient() {
         <Link href="/contacto">Contacto</Link>
       </nav>
       
-      <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+      <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', transition: 'transform 0.3s var(--ease-out)' }}>
         <img 
           src="/assets/logo_zafhira.png" 
           alt="Zafhira" 
-          style={{ height: '40px', width: 'auto', objectFit: 'contain' }} 
+          style={{ height: '100px', width: 'auto', objectFit: 'contain' }} 
         />
       </Link>
 
