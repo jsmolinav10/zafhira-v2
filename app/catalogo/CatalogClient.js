@@ -93,8 +93,8 @@ export default function CatalogClient({ initialCatalog }) {
 
         {/* Product Grid - Asymmetrical Masonry */}
         <div className="masonry-grid" style={{
-          columnCount: 3,
-          columnGap: '2rem',
+          columnCount: 'var(--grid-cols, 3)',
+          columnGap: '1.5rem',
           margin: '0 auto',
         }}>
           {filtered.length === 0 ? (
