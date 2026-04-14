@@ -23,7 +23,12 @@ export function AuthProvider({ children }) {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Auth error:", error);
-      alert("No se pudo iniciar sesión con Google. Por favor, verifica tu conexión o intenta más tarde.");
+      alert(
+        `Error de autenticación:\n\n` +
+        `Código: ${error.code}\n` +
+        `Mensaje: ${error.message}\n\n` +
+        `Si el código dice "auth/unauthorized-domain", ve a Firebase Console > Authentication > Settings > Authorized domains y añade: ${window.location.hostname}`
+      );
     }
   };
 
