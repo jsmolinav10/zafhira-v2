@@ -23,11 +23,14 @@ export function AuthProvider({ children }) {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Error signing in with Google", error);
-      if (error.code === 'auth/invalid-api-key') {
-        alert("Atención: Necesitas reemplazar las credenciales falsas en .env.local por las llaves reales de tu proyecto de Firebase para que el Login con Google funcione.");
-      } else {
-        alert("Ocurrió un error al intentar iniciar sesión con Google.");
-      }
+      alert(
+        `Error de Configuración:\n\n` +
+        `Para que el inicio de sesión funcione en Vercel, debes:\n` +
+        `1. Crear un proyecto en console.firebase.google.com\n` +
+        `2. Ir a Authentication > Authorized Domains y añadir "zafhira-v2.vercel.app".\n` +
+        `3. Configurar las variables de entorno (API Keys) en el panel de Vercel.\n\n` +
+        `Detalle técnico: ${error.code}`
+      );
     }
   };
 
