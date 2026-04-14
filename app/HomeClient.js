@@ -45,7 +45,7 @@ export default function HomeClient({ featured }) {
         position: 'relative',
       }}>
         <p className="text-title text-gold fade-in" style={{ marginBottom: '1.5rem' }}>
-          ATELIER JOYERÍA
+          Zafhira Joyería de Autor
         </p>
         <h1 className="text-display font-serif fade-in stagger-1">
           Alquimia de Autor
@@ -111,7 +111,7 @@ export default function HomeClient({ featured }) {
         }}>
           <div>
             <h2 className="text-headline font-serif">Piezas Destacadas</h2>
-            <p className="text-label" style={{ marginTop: '0.5rem' }}>Atelier Selección Exclusiva</p>
+            <p className="text-label" style={{ marginTop: '0.5rem' }}>Zafhira Selección Exclusiva</p>
           </div>
           <a href="/catalogo" className="btn-tertiary">Ver todo</a>
         </div>

@@ -1,12 +1,16 @@
 import { CartProvider } from "../context/CartContext";
+import HeaderClient from "./HeaderClient";
 import "./globals.css";
 
 export const metadata = {
-  title: "ATELIER JOYERÍA | Zafhira — Joyería de Autor",
+  title: "Zafhira | Joyería de Autor — Alquimia Preciosa",
   description: "Piezas únicas forjadas con la precisión de un latido. Descubra la sofisticación de Zafhira en cada detalle de oro y gemas preciosas.",
   keywords: "joyería, autor, oro, Colombia, lujo, anillos, collares, zafiro, esmeralda",
+  icons: {
+    icon: "/assets/monograma.jpg",
+  },
   openGraph: {
-    title: "ATELIER JOYERÍA | Zafhira",
+    title: "Zafhira | Joyería de Autor",
     description: "Joyas con alma, creadas para perdurar en el tiempo.",
     type: "website",
   },
@@ -15,21 +19,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" href="/assets/monograma.jpg" />
+      </head>
       <body>
         <CartProvider>
-          {/* Glassmorphism Header — The Glass Rule */}
-          <header className="glass-header">
-            <nav>
-              <a href="/">Inicio</a>
-              <a href="/catalogo">Catálogo</a>
-              <a href="/nosotros">Sobre Nosotros</a>
-              <a href="/contacto">Contacto</a>
-            </nav>
-            <a href="/" className="logo">ZAFHIRA</a>
-            <nav>
-              <a href="/checkout">Carrito</a>
-            </nav>
-          </header>
+          <HeaderClient />
 
           <main style={{ minHeight: '100vh', paddingTop: '80px' }}>
             {children}
@@ -56,15 +51,14 @@ export default function RootLayout({ children }) {
                 </ul>
               </div>
               <div className="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                  <li><a href="/terminos">Terms &amp; Conditions</a></li>
-                  <li><a href="/privacidad">Privacy Policy</a></li>
-                </ul>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                  <img src="/assets/monograma.jpg" alt="Zafhira Seal" style={{ width: '60px', borderRadius: '50%', filter: 'grayscale(0.2) contrast(1.1)' }} />
+                  <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--primary)', fontWeight: '600' }}>SELLO DE AUTOR</span>
+                </div>
               </div>
             </div>
             <div className="footer-bottom">
-              <span>© 2026 ATELIER JOYERÍA. PRECIOS EN COP.</span>
+              <span>© 2026 ZAFHIRA JOYERÍA. PRECIOS EN COP.</span>
               <span>Zafhira — Joyería de Autor</span>
             </div>
           </footer>
