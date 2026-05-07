@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import Link from "next/link";
 
 export default function FooterClient() {
   const { loginWithEmail } = useAuth();
@@ -63,10 +64,10 @@ export default function FooterClient() {
           </ul>
         </div>
         <div className="footer-links">
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+          <Link href="/admin" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', textDecoration: 'none', cursor: 'pointer' }}>
             <img src="/assets/monograma.jpg" alt="Zafhira Seal" style={{ width: '120px', borderRadius: '50%', filter: 'grayscale(0.2) contrast(1.1)' }} />
             <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--primary)', fontWeight: '600' }}>SELLO DE AUTOR</span>
-          </div>
+          </Link>
         </div>
       </div>
       <div className="footer-bottom">
