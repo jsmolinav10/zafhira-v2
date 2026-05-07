@@ -29,7 +29,12 @@ export default function HeaderClient() {
       <nav>
         {!authLoading && (
           user ? (
-            <button onClick={logout} className="nav-btn">CERRAR SESIÓN</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <span className="nav-btn" style={{ cursor: 'default', opacity: 0.7, fontSize: '0.65rem' }}>
+                {user.email?.split('@')[0]}
+              </span>
+              <button onClick={logout} className="nav-btn">CERRAR SESIÓN</button>
+            </div>
           ) : (
             <button onClick={loginWithGoogle} className="nav-btn">MI CUENTA</button>
           )

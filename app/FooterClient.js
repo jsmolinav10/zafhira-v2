@@ -1,13 +1,29 @@
 "use client";
 
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function FooterClient() {
-  const { loginWithGoogle } = useAuth();
+  const { loginWithEmail } = useAuth();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null); // 'success' | 'error' | null
+  const [statusMsg, setStatusMsg] = useState("");
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    loginWithGoogle();
+    if (!email) return;
+
+    setStatus(null);
+    const result = await loginWithEmail(email);
+
+    if (result?.error) {
+      setStatus("error");
+      setStatusMsg("Error al suscribirse. Intenta de nuevo.");
+    } else {
+      setStatus("success");
+      setStatusMsg("✓ Revisa tu correo para confirmar tu suscripción.");
+      setEmail("");
+    }
   };
 
   return (
@@ -17,9 +33,25 @@ export default function FooterClient() {
           <h3 className="font-serif">Únase al círculo íntimo</h3>
           <p>Reciba invitaciones exclusivas a lanzamientos de colecciones privadas y eventos de alta joyería.</p>
           <form onSubmit={handleSubscribe} className="email-input-group">
-            <input type="email" placeholder="Su dirección de email" aria-label="Email para newsletter" required />
+            <input
+              type="email"
+              placeholder="Su dirección de email"
+              aria-label="Email para newsletter"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <button type="submit" className="btn-primary" style={{ fontSize: '0.75rem' }}>Suscribirse</button>
           </form>
+          {status && (
+            <p style={{
+              marginTop: '0.75rem',
+              fontSize: '0.8rem',
+              color: status === 'success' ? '#51cf66' : '#ff6b6b',
+            }}>
+              {statusMsg}
+            </p>
+          )}
         </div>
         <div className="footer-links">
           <h4>Navegación</h4>
