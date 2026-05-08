@@ -92,7 +92,7 @@ export default function CheckoutPage() {
 
       if (orderError) {
         console.error('Order error:', orderError)
-        alert('Error al crear el pedido. Intenta de nuevo.')
+        alert(`Error al crear el pedido: ${orderError.message || 'Error desconocido'}. Por favor reporta esto.`)
         setSubmitting(false)
         return
       }
