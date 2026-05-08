@@ -62,7 +62,7 @@ export default function CheckoutPage() {
         .from('comprobantes')
         .getPublicUrl(fileName)
 
-      // 2. Create order
+      // 2. Create order via server API (bypasses RLS)
       const orderData = {
         customer_name: form.name,
         customer_email: form.email,
@@ -81,23 +81,24 @@ export default function CheckoutPage() {
         shipping_cost: shippingCost,
         total,
         payment_proof_url: urlData.publicUrl,
-        status: 'pendiente',
       }
 
-      const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert([orderData])
-        .select()
-        .single()
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      })
 
-      if (orderError) {
-        console.error('Order error:', orderError)
-        alert(`Error al crear el pedido: ${orderError.message || 'Error desconocido'}. Por favor reporta esto.`)
+      const result = await res.json()
+
+      if (!res.ok) {
+        console.error('Order API error:', result)
+        alert(`Error al crear el pedido: ${result.error || 'Error desconocido'}. Por favor reporta esto.`)
         setSubmitting(false)
         return
       }
 
-      setOrderId(order.id)
+      setOrderId(result.order.id)
       setOrderPlaced(true)
       clearCart()
     } catch (err) {
