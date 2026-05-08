@@ -283,7 +283,7 @@ export default function CheckoutPage() {
               }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="/images/qr-nequi.png" 
+                  src="/images/qr-nequi.jpg" 
                   alt="QR Nequi Zafhira" 
                   style={{ width: '220px', height: 'auto', display: 'block' }} 
                 />
