@@ -268,19 +268,44 @@ export default function CheckoutPage() {
               Luego sube el comprobante de pago.
             </p>
             
-            {/* QR Placeholder */}
+            {/* QR Payment Code */}
             <div style={{
-              width: '200px', height: '200px',
               margin: '0 auto 1.5rem',
-              background: '#fff',
-              border: '2px solid var(--outline)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexDirection: 'column', gap: '0.5rem',
+              textAlign: 'center',
             }}>
-              <div style={{ fontSize: '3rem' }}>📱</div>
-              <span style={{ fontSize: '0.7rem', color: '#333', textAlign: 'center', padding: '0 1rem' }}>
-                QR de pago — Configurable desde Admin
-              </span>
+              <div style={{
+                background: '#fff',
+                padding: '1rem',
+                borderRadius: '12px',
+                display: 'inline-block',
+                marginBottom: '1rem',
+                border: '2px solid var(--primary)',
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src="/images/qr-nequi.png" 
+                  alt="QR Nequi Zafhira" 
+                  style={{ width: '220px', height: 'auto', display: 'block' }} 
+                />
+              </div>
+              <div style={{ color: 'var(--on-surface)' }}>
+                <p style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: '0.2rem' }}>Zafhira Joyeria</p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--on-surface-variant)', marginBottom: '0.5rem' }}>Jhoan Molina</p>
+                <div style={{ 
+                  background: 'rgba(255,255,255,0.05)', 
+                  border: '1px solid var(--outline-variant)', 
+                  padding: '8px 16px', 
+                  borderRadius: '20px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.9rem',
+                  fontFamily: 'monospace'
+                }}>
+                  🔑 0092106099
+                </div>
+                <p style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: 'var(--primary)', fontWeight: 'bold' }}>Llave Nequi Negocios</p>
+              </div>
             </div>
 
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
