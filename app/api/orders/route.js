@@ -1,37 +1,41 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
+
+const orderSchema = z.object({
+  customer_name: z.string().min(2, 'Nombre muy corto').max(100, 'Nombre muy largo'),
+  customer_email: z.string().email('Email inválido'),
+  customer_phone: z.string().min(8, 'Teléfono inválido').max(20, 'Teléfono inválido'),
+  shipping_address: z.string().min(5, 'Dirección muy corta').max(255, 'Dirección muy larga'),
+  shipping_city: z.string().min(2, 'Ciudad muy corta').max(100, 'Ciudad muy larga'),
+  shipping_method: z.string(),
+  items: z.array(z.any()).min(1, 'La orden debe tener al menos un item'),
+  subtotal: z.number().positive('Subtotal debe ser positivo'),
+  shipping_cost: z.number().nonnegative('Costo de envío no puede ser negativo'),
+  total: z.number().positive('Total debe ser positivo'),
+  payment_proof_url: z.string().url('URL de comprobante inválida').or(z.string().optional())
+})
 
 export async function POST(request) {
   try {
     const body = await request.json()
 
-    // Validate required fields
-    const requiredFields = ['customer_name', 'customer_email', 'customer_phone', 'shipping_address', 'shipping_city', 'shipping_method', 'items', 'subtotal', 'shipping_cost', 'total', 'payment_proof_url']
-    for (const field of requiredFields) {
-      if (body[field] === undefined || body[field] === null || body[field] === '') {
-        return NextResponse.json(
-          { error: `Campo requerido faltante: ${field}` },
-          { status: 400 }
-        )
-      }
+    // Validación y Sanitización con Zod
+    const validatedData = orderSchema.safeParse(body);
+
+    if (!validatedData.success) {
+      return NextResponse.json(
+        { error: 'Datos de orden inválidos', details: validatedData.error.format() },
+        { status: 400 }
+      )
+    }
+
+    const orderData = {
+      ...validatedData.data,
+      status: 'pendiente',
     }
 
     const supabase = await createClient()
-
-    const orderData = {
-      customer_name: body.customer_name,
-      customer_email: body.customer_email,
-      customer_phone: body.customer_phone,
-      shipping_address: body.shipping_address,
-      shipping_city: body.shipping_city,
-      shipping_method: body.shipping_method,
-      items: body.items,
-      subtotal: body.subtotal,
-      shipping_cost: body.shipping_cost,
-      total: body.total,
-      payment_proof_url: body.payment_proof_url,
-      status: 'pendiente',
-    }
 
     const { data: order, error: orderError } = await supabase
       .from('orders')

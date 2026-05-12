@@ -9,7 +9,7 @@ export const metadata = {
   description: "Piezas únicas forjadas con la precisión de un latido. Descubra la sofisticación de Zafhira en cada detalle de oro y gemas preciosas.",
   keywords: "joyería, autor, oro, Colombia, lujo, anillos, collares, zafiro, esmeralda",
   icons: {
-    icon: "/assets/monograma.jpg",
+    icon: "/favicon.ico",
   },
   openGraph: {
     title: "Zafhira | Joyería de Autor",
@@ -21,9 +21,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" href="/assets/monograma.jpg" />
-      </head>
       <body>
         <AuthProvider>
           <CartProvider>
