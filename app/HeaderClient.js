@@ -14,6 +14,7 @@ export default function HeaderClient() {
       <nav>
         <Link href="/">Inicio</Link>
         <Link href="/catalogo">Catálogo</Link>
+        <Link href="/guias">Guías y Consejos</Link>
         <Link href="/nosotros">Sobre Nosotros</Link>
         <Link href="/contacto">Contacto</Link>
       </nav>
