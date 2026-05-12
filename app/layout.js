@@ -6,15 +6,15 @@ import WhatsAppButton from "./WhatsAppButton";
 import "./globals.css";
 
 export const metadata = {
-  title: "Zafhira | Anillos de Matrimonio y Joyería Personalizada en Oro 18kt",
-  description: "Joyería personalizada por Jhoan Sebastian. Anillos de matrimonio, anillos de 15 años y cadenas en oro 18kt y plata. Más que una joya, inmortalizamos tus mejores momentos.",
-  keywords: "anillos de matrimonio, anillos de 15 años, cadenas de oro 18kt, accesorios en plata, joyería personalizada, joyero Jhoan Sebastian, Zafhira",
+  title: "Zafhira | Anillos de Matrimonio y Joyería Personalizada en Bogotá",
+  description: "Taller de joyería personalizada por Jhoan Sebastian en Bogotá, Colombia. Anillos de matrimonio, anillos de 15 años y cadenas en oro 18kt y plata.",
+  keywords: "anillos de matrimonio bogotá, anillos personalizados bogotá, joyería bogotá, cadenas de oro 18kt colombia, joyero Jhoan Sebastian, Zafhira Bogotá",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Zafhira | Joyería Personalizada por Jhoan Sebastian",
-    description: "Anillos de matrimonio y joyas en oro 18kt hechas a medida. Inmortalizamos tus mejores momentos.",
+    title: "Zafhira | Taller de Joyería en Bogotá por Jhoan Sebastian",
+    description: "Anillos de matrimonio y joyas en oro 18K hechas a medida en Bogotá, Colombia.",
     type: "website",
   },
 };

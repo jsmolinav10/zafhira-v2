@@ -71,9 +71,9 @@ export default function FooterClient() {
 
         </div>
       </div>
-      <div className="footer-bottom">
+      <div className="footer-bottom" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
         <span>© 2026 ZAFHIRA JOYERÍA. PRECIOS EN COP.</span>
-        <span>Zafhira — Joyería de Autor</span>
+        <span>Taller de Joyería Personalizada — Bogotá, Colombia 🇨🇴</span>
       </div>
     </footer>
   );
