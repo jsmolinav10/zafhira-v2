@@ -68,6 +68,38 @@ export default function FooterClient() {
             <img src="/assets/monograma.jpg" alt="Zafhira Seal" style={{ width: '120px', borderRadius: '50%', filter: 'grayscale(0.2) contrast(1.1)' }} />
             <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--primary)', fontWeight: '600' }}>SELLO DE AUTOR</span>
           </Link>
+          <div style={{ display: 'flex', gap: '1.2rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/zafhirajoyeria/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram de Zafhira"
+              style={{ color: 'var(--on-surface-variant)', transition: 'color 0.3s, transform 0.3s', display: 'inline-flex' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.transform = 'scale(1.2)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.transform = 'scale(1)'; }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            {/* TikTok */}
+            <a
+              href="https://www.tiktok.com/@zafhira.joyeria"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok de Zafhira"
+              style={{ color: 'var(--on-surface-variant)', transition: 'color 0.3s, transform 0.3s', display: 'inline-flex' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.transform = 'scale(1.2)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.transform = 'scale(1)'; }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2 6.34 6.34 0 0 0 9.49 21.5a6.34 6.34 0 0 0 6.34-6.34V8.72a8.2 8.2 0 0 0 3.76.92V6.69z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
       <div className="footer-bottom">

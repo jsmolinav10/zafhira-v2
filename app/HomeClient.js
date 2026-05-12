@@ -48,7 +48,7 @@ export default function HomeClient({ featured }) {
           Por el joyero Jhoan Sebastian
         </p>
         <h1 className="text-display font-serif fade-in stagger-1" style={{ fontSize: 'clamp(2rem, 4vw, 4rem)' }}>
-          Joyería Personalizada & <br/> Anillos de Matrimonio
+          Joyería personalizada
         </h1>
         <p className="fade-in stagger-2" style={{
           maxWidth: '650px',
@@ -58,8 +58,9 @@ export default function HomeClient({ featured }) {
           marginBottom: '3rem',
           lineHeight: '1.8',
         }}>
-          Nada genérico. Solo piezas exclusivas y detalladas en Oro 18kt y Plata. 
-          En nuestro taller brindamos el mejor servicio, los acabados más perfectos y la máxima calidad.
+          Taller de joyería especializado en joyas exclusivas en Oro 18K y Plata 925. 
+          Fabricamos piezas personalizadas con acabados de alta calidad, diseño artesanal 
+          y atención profesional en cada detalle.
         </p>
         <a href="/catalogo" className="btn-primary fade-in stagger-3">
           Ver Anillos y Accesorios
@@ -91,9 +92,10 @@ export default function HomeClient({ featured }) {
           borderLeft: '2px solid var(--primary)',
           paddingLeft: '2rem',
         }}>
-          "Llevo años de experiencia realizando trabajos de joyería personalizados. 
-          En Zafhira, cada anillo de 15 años, cada anillo de compromiso y cada cadena 
-          es una obra esculpida a mano para celebrar tus historias más importantes."
+          "En Zafhira trabajamos de la mano contigo. Nos sentamos a escucharte, entendemos lo que 
+          quieres transmitir y lo convertimos en una pieza única hecha a tu medida — ya sea un anillo 
+          de matrimonio, unos aretes de 15 años o una cadena especial para regalar. Aquí cada joya 
+          tiene tu historia."
         </blockquote>
       </section>
 
