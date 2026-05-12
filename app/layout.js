@@ -5,15 +5,15 @@ import FooterClient from "./FooterClient";
 import "./globals.css";
 
 export const metadata = {
-  title: "Zafhira | Joyería de Autor — Alquimia Preciosa",
-  description: "Piezas únicas forjadas con la precisión de un latido. Descubra la sofisticación de Zafhira en cada detalle de oro y gemas preciosas.",
-  keywords: "joyería, autor, oro, Colombia, lujo, anillos, collares, zafiro, esmeralda",
+  title: "Zafhira | Anillos de Matrimonio y Joyería Personalizada en Oro 18kt",
+  description: "Joyería personalizada por Jhoan Sebastian. Anillos de matrimonio, anillos de 15 años y cadenas en oro 18kt y plata. Más que una joya, inmortalizamos tus mejores momentos.",
+  keywords: "anillos de matrimonio, anillos de 15 años, cadenas de oro 18kt, accesorios en plata, joyería personalizada, joyero Jhoan Sebastian, Zafhira",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Zafhira | Joyería de Autor",
-    description: "Joyas con alma, creadas para perdurar en el tiempo.",
+    title: "Zafhira | Joyería Personalizada por Jhoan Sebastian",
+    description: "Anillos de matrimonio y joyas en oro 18kt hechas a medida. Inmortalizamos tus mejores momentos.",
     type: "website",
   },
 };

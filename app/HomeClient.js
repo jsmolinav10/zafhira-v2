@@ -45,24 +45,24 @@ export default function HomeClient({ featured }) {
         position: 'relative',
       }}>
         <p className="text-title text-gold fade-in" style={{ marginBottom: '1.5rem' }}>
-          Zafhira Joyería de Autor
+          Por el joyero Jhoan Sebastian
         </p>
-        <h1 className="text-display font-serif fade-in stagger-1">
-          Alquimia de Autor
+        <h1 className="text-display font-serif fade-in stagger-1" style={{ fontSize: 'clamp(2rem, 4vw, 4rem)' }}>
+          Joyería Personalizada & <br/> Anillos de Matrimonio
         </h1>
         <p className="fade-in stagger-2" style={{
-          maxWidth: '580px',
+          maxWidth: '650px',
           color: 'var(--on-surface-variant)',
-          fontSize: '1.05rem',
+          fontSize: '1.1rem',
           marginTop: '1.5rem',
           marginBottom: '3rem',
           lineHeight: '1.8',
         }}>
-          Piezas únicas forjadas con la precisión de un latido. 
-          Descubra la sofisticación de Zafhira en cada detalle de oro y gemas preciosas.
+          Nada genérico. Solo piezas exclusivas y detalladas en Oro 18kt y Plata. 
+          En nuestro taller brindamos el mejor servicio, los acabados más perfectos y la máxima calidad.
         </p>
         <a href="/catalogo" className="btn-primary fade-in stagger-3">
-          Ver Colección
+          Ver Anillos y Accesorios
         </a>
       </section>
 
@@ -78,7 +78,7 @@ export default function HomeClient({ featured }) {
       }}>
         <div>
           <h2 className="text-headline font-serif" style={{ marginBottom: '2rem' }}>
-            Donde el diseño se encuentra con el alma.
+            Más que una joya, inmortalizamos tus mejores momentos.
           </h2>
           <a href="/nosotros" className="btn-tertiary">Conoce nuestra historia</a>
         </div>
@@ -91,9 +91,9 @@ export default function HomeClient({ featured }) {
           borderLeft: '2px solid var(--primary)',
           paddingLeft: '2rem',
         }}>
-          "En Zafhira, no creamos accesorios; esculpimos legados. Cada pieza es una narrativa 
-          de elegancia atemporal, diseñada para quienes entienden que el verdadero lujo reside 
-          en la singularidad del trazo."
+          "Llevo años de experiencia realizando trabajos de joyería personalizados. 
+          En Zafhira, cada anillo de 15 años, cada anillo de compromiso y cada cadena 
+          es una obra esculpida a mano para celebrar tus historias más importantes."
         </blockquote>
       </section>
 
