@@ -44,8 +44,11 @@ export default function HomeClient({ featured }) {
         padding: '0 8%',
         position: 'relative',
       }}>
-        <p className="text-title text-gold fade-in" style={{ marginBottom: '1.5rem' }}>
-          Por el joyero Jhoan Sebastian
+        <p className="text-title text-gold fade-in" style={{ marginBottom: '0.5rem' }}>
+          Joyería de autor
+        </p>
+        <p className="text-label fade-in stagger-1" style={{ marginBottom: '1.5rem', opacity: 0.8, letterSpacing: '0.2em' }}>
+          POR JHOAN SEBASTIAN
         </p>
         <h1 className="text-display font-serif fade-in stagger-1" style={{ fontSize: 'clamp(2rem, 4vw, 4rem)' }}>
           Joyería personalizada
