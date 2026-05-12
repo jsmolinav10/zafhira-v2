@@ -176,6 +176,38 @@ export default function ProductDetailClient({ product, related }) {
               {product.status === 'agotado' ? 'AGOTADO' : 'COMPRAR'}
             </button>
 
+            {/* Quote Custom Metal Button */}
+            <a 
+              href={`https://wa.me/573229007675?text=Hola,%20me%20interesa%20la%20pieza%20*${encodeURIComponent(product.title)}*,%20pero%20me%20gustar%C3%ADa%20cotizarla%20en%20un%20metal%20diferente%20(ej.%20Oro%2018K%20/%20Plata)%20o%20con%20una%20piedra%20diferente.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                width: '100%',
+                padding: '14px',
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                textAlign: 'center',
+                background: 'transparent',
+                border: '1px solid var(--outline-variant)',
+                color: 'var(--on-surface-variant)',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'border-color 200ms var(--ease-out), color 200ms var(--ease-out)'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.color = 'var(--primary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.color = 'var(--on-surface-variant)'; }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.012 2c5.506 0 9.989 4.478 9.989 9.984 0 1.705-.448 3.308-1.238 4.69l1.206 4.413-4.52-.185c-1.37.768-2.956 1.206-4.637 1.206-5.506 0-9.989-4.478-9.989-9.984C2.823 6.478 7.306 2 12.012 2zm0 1.5c-4.686 0-8.489 3.8-8.489 8.484 0 1.83.585 3.535 1.583 4.935l-.837 3.064 3.136-1.002c1.36.91 2.975 1.442 4.707 1.442 4.686 0 8.489-3.8 8.489-8.484 0-4.684-3.803-8.484-8.489-8.484zm4.239 11.232c-.226.549-1.077 1.054-1.521 1.134-.383.069-.877.108-2.61-.611-2.094-.868-3.447-3.003-3.551-3.142-.104-.139-.848-1.129-.848-2.152 0-1.023.531-1.526.717-1.724.186-.198.406-.248.541-.248.135 0 .271 0 .384.006.124.006.293-.047.458.35.169.407.575 1.405.626 1.509.051.104.085.226.017.361-.068.135-.102.22-.203.339-.101.118-.214.253-.305.339-.101.096-.208.203-.096.395.113.192.502.829 1.083 1.346.75.668 1.366.87 1.558.966.192.096.305.085.418-.034.113-.118.491-.57.626-.768.135-.198.271-.164.446-.102.175.062 1.106.52 1.298.616.192.096.316.141.361.22.045.079.045.463-.181 1.012z"/>
+              </svg>
+              Cotizar en Otro Metal
+            </a>
+
             {/* Accordion Tabs */}
             <div style={{ borderTop: '1px solid var(--outline-variant)', marginTop: '1rem' }}>
               <div style={{ display: 'flex', borderBottom: '1px solid var(--outline-variant)' }}>
