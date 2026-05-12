@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import InventoryActions from './InventoryActions'
+import CategorySelector from './CategorySelector'
 
 async function uploadProduct(formData) {
   'use server'
@@ -9,7 +10,9 @@ async function uploadProduct(formData) {
   const title = formData.get('title')
   const description = formData.get('description')
   const price = formData.get('price')
-  const category = formData.get('category')
+  const mainCategory = formData.get('main_category')
+  const subcategory = formData.get('subcategory')
+  const category = `${mainCategory}: ${subcategory}`
   const status = formData.get('status') || 'disponible'
   const imageFile = formData.get('image')
 
@@ -109,23 +112,11 @@ export default async function InventoryPage() {
               <input name="title" required placeholder="Ej. Anillo de la Promesa" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
-              <div>
-                <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Categoría</label>
-                <select name="category" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
-                  <option value="Collares">Collares</option>
-                  <option value="Brazaletes">Brazaletes</option>
-                  <option value="Pendientes">Pendientes</option>
-                  <option value="Anillos: Compromiso">Anillos: Compromiso</option>
-                  <option value="Anillos: Matrimonio">Anillos: Matrimonio</option>
-                  <option value="Anillos: 15 Años">Anillos: 15 Años</option>
-                  <option value="Anillos: Oferta">Anillos: Oferta</option>
-                </select>
-              </div>
-              <div>
-                <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Precio (COP)</label>
-                <input name="price" type="number" required placeholder="1500000" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
-              </div>
+            <CategorySelector />
+
+            <div>
+              <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Precio (COP)</label>
+              <input name="price" type="number" required placeholder="1500000" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
             </div>
 
             <div>
