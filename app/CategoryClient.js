@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "./context/CartContext";
+import { useCart } from "../context/CartContext";
 import { useState, useCallback } from "react";
 import Link from "next/link";
 
