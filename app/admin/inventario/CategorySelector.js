@@ -29,8 +29,19 @@ const subcategoriesMap = {
   ]
 }
 
-export default function CategorySelector() {
-  const [mainCategory, setMainCategory] = useState('Anillos')
+export default function CategorySelector({ defaultValue = 'Anillos: ' }) {
+  const initialMain = defaultValue.split(':')[0] || 'Anillos'
+  const initialSub = defaultValue.split(':')[1]?.trim() || ''
+
+  const [mainCategory, setMainCategory] = useState(initialMain)
+  const [subcategory, setSubcategory] = useState(initialSub)
+
+  // Actualizar subcategoría cuando cambia la principal
+  const handleMainChange = (e) => {
+    const newMain = e.target.value
+    setMainCategory(newMain)
+    setSubcategory(subcategoriesMap[newMain][0]) // Seleccionar la primera por defecto
+  }
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -39,7 +50,7 @@ export default function CategorySelector() {
         <select 
           name="main_category" 
           value={mainCategory}
-          onChange={(e) => setMainCategory(e.target.value)}
+          onChange={handleMainChange}
           style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}
         >
           <option value="Anillos">Anillos</option>
@@ -52,6 +63,8 @@ export default function CategorySelector() {
         <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Subcategoría</label>
         <select 
           name="subcategory" 
+          value={subcategory}
+          onChange={(e) => setSubcategory(e.target.value)}
           style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}
         >
           {subcategoriesMap[mainCategory].map(sub => (

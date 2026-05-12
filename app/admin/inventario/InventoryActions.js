@@ -1,12 +1,34 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function InventoryActions({ product, toggleStatusAction, deleteAction, toggleFeaturedAction }) {
   const [showConfirm, setShowConfirm] = useState(false)
 
   return (
     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+      
+      {/* Edit */}
+      <Link href={`/admin/inventario/editar/${product.id}`}
+        style={{
+          background: 'transparent',
+          border: '1px solid var(--outline-variant)',
+          color: 'var(--primary)',
+          cursor: 'pointer',
+          padding: '5px 10px',
+          fontSize: '0.7rem',
+          letterSpacing: '0.05em',
+          textTransform: 'uppercase',
+          textDecoration: 'none',
+          transition: 'all 0.2s ease',
+          display: 'inline-block'
+        }}
+        title="Editar pieza"
+      >
+        ✏️ Editar
+      </Link>
+
       {/* Toggle featured */}
       <form action={toggleFeaturedAction}>
         <input type="hidden" name="id" value={product.id} />
