@@ -8,6 +8,10 @@ export default function TiposAnillosCompromiso() {
     <article style={{ padding: '4rem 8%', maxWidth: '800px', margin: '0 auto', color: 'var(--on-surface)' }}>
       <h1 className="text-display font-serif" style={{ marginBottom: '2rem' }}>Tipos de Anillos de Compromiso: ¿Cuál es el diseño perfecto para ella?</h1>
       
+      <div style={{ width: '100%', height: '400px', marginBottom: '3rem', borderRadius: '8px', overflow: 'hidden' }}>
+        <img src="/assets/guias/anillos_estilos_guia.png" alt="Estilos de Anillos de Compromiso" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+
       <div style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
         <p style={{ marginBottom: '1.5rem' }}>
           El anillo de compromiso es la promesa material de un amor eterno. En nuestro taller de joyería en Bogotá, vemos a diario cómo un diseño acertado puede emocionar hasta las lágrimas. A continuación, te explico los estilos más emblemáticos para que tomes la mejor decisión.

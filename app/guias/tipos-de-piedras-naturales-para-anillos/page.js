@@ -8,6 +8,10 @@ export default function PiedrasNaturales() {
     <article style={{ padding: '4rem 8%', maxWidth: '800px', margin: '0 auto', color: 'var(--on-surface)' }}>
       <h1 className="text-display font-serif" style={{ marginBottom: '2rem' }}>Más allá del diamante: Las mejores piedras naturales para tu anillo</h1>
       
+      <div style={{ width: '100%', height: '400px', marginBottom: '3rem', borderRadius: '8px', overflow: 'hidden' }}>
+        <img src="/assets/guias/piedras_naturales_guia.png" alt="Zafiro, Rubí y Esmeralda" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+
       <div style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
         <p style={{ marginBottom: '1.5rem' }}>
           Aunque el diamante es la opción tradicional, cada vez más mujeres prefieren anillos de compromiso y joyería personalizada con piedras naturales llenas de color y significado. En Zafhira, seleccionamos cuidadosamente gemas que no solo sean hermosas, sino lo suficientemente duraderas para el uso diario.

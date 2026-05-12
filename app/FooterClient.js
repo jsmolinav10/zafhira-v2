@@ -61,7 +61,6 @@ export default function FooterClient() {
             <li><a href="/catalogo">Catálogo</a></li>
             <li><a href="/guias">Guías y Consejos</a></li>
             <li><a href="/nosotros">Sobre Nosotros</a></li>
-            <li><a href="/contacto">Contacto</a></li>
           </ul>
         </div>
         <div className="footer-links">

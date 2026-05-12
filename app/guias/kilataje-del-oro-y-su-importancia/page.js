@@ -8,6 +8,10 @@ export default function KilatajeGuia() {
     <article style={{ padding: '4rem 8%', maxWidth: '800px', margin: '0 auto', color: 'var(--on-surface)' }}>
       <h1 className="text-display font-serif" style={{ marginBottom: '2rem' }}>El Kilataje del Oro: ¿Qué significa y por qué es tan importante?</h1>
       
+      <div style={{ width: '100%', height: '400px', marginBottom: '3rem', borderRadius: '8px', overflow: 'hidden' }}>
+        <img src="/assets/guias/oro_kilataje_guia.png" alt="Anillo de Oro 18K" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+
       <div style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
         <p style={{ marginBottom: '1.5rem' }}>
           Cuando buscas un anillo de compromiso o una joya para toda la vida, uno de los términos más comunes que escucharás es el "kilataje" o los "quilates" del oro (se representa con la letra K). Como joyero experto en Bogotá, frecuentemente mis clientes me preguntan: <em>¿Qué significa realmente y cuál debería elegir?</em>

@@ -8,6 +8,10 @@ export default function GuiaDetalladaPiedras() {
     <article style={{ padding: '4rem 8%', maxWidth: '800px', margin: '0 auto', color: 'var(--on-surface)' }}>
       <h1 className="text-display font-serif" style={{ marginBottom: '2rem' }}>Guía Detallada: Las Cuatro Grandes Gemas de la Alta Joyería</h1>
       
+      <div style={{ width: '100%', height: '400px', marginBottom: '3rem', borderRadius: '8px', overflow: 'hidden' }}>
+        <img src="/assets/guias/piedras_naturales_guia.png" alt="Las 4 Grandes Gemas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+
       <div style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
         <p style={{ marginBottom: '1.5rem' }}>
           En el mundo de la alta joyería, existen cuatro gemas que históricamente han dominado por su rareza, belleza y prestigio. En el taller de Zafhira en Bogotá, trabajamos con estas maravillas de la naturaleza para crear piezas que se heredan de generación en generación. Aquí te presento una guía profunda de cada una.
