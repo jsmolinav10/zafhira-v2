@@ -114,9 +114,12 @@ export default async function InventoryPage() {
                 <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Categoría</label>
                 <select name="category" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
                   <option value="Collares">Collares</option>
-                  <option value="Anillos">Anillos</option>
                   <option value="Brazaletes">Brazaletes</option>
                   <option value="Pendientes">Pendientes</option>
+                  <option value="Anillos: Compromiso">Anillos: Compromiso</option>
+                  <option value="Anillos: Matrimonio">Anillos: Matrimonio</option>
+                  <option value="Anillos: 15 Años">Anillos: 15 Años</option>
+                  <option value="Anillos: Oferta">Anillos: Oferta</option>
                 </select>
               </div>
               <div>

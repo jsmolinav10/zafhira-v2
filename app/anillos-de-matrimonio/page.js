@@ -14,7 +14,7 @@ export default async function AnillosMatrimonioPage() {
   const { data: catalog, error } = await supabase
     .from('products')
     .select('*')
-    .ilike('title', '%matrimonio%') // Filtramos los que tengan "matrimonio" en el título
+    .or('category.eq.Anillos: Matrimonio,title.ilike.%matrimonio%')
     .order('created_at', { ascending: false })
 
   return (

@@ -13,7 +13,7 @@ export default async function AnillosCompromisoPage() {
   const { data: catalog, error } = await supabase
     .from('products')
     .select('*')
-    .ilike('title', '%compromiso%') // Filtramos los que tengan "compromiso" en el título
+    .or('category.eq.Anillos: Compromiso,title.ilike.%compromiso%')
     .order('created_at', { ascending: false })
 
   return (
