@@ -35,10 +35,19 @@ export default function GuiasPage() {
         <article style={{ padding: '2rem', border: '1px solid var(--outline)', borderRadius: '8px' }}>
           <h2 className="text-headline font-serif">Las mejores piedras naturales para un anillo personalizado</h2>
           <p style={{ marginTop: '1rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-            Más allá del diamante. Conoce el Zafiro, la Esmeralda Colombiana, el Rubí y la Moissanita. 
-            Su dureza, significado y por qué elegir cada una.
+            Conoce las alternativas para salir de lo tradicional. La resistencia en la escala de Mohs y 
+            el significado detrás de regalar una piedra de color.
           </p>
           <Link href="/guias/tipos-de-piedras-naturales-para-anillos" className="btn-tertiary">Leer guía completa</Link>
+        </article>
+
+        <article style={{ padding: '2rem', border: '1px solid var(--outline)', borderRadius: '8px' }}>
+          <h2 className="text-headline font-serif">Análisis Profundo: Diamante, Zafiro, Rubí y Esmeralda</h2>
+          <p style={{ marginTop: '1rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>
+            La guía definitiva de los "cuatro grandes" de la alta joyería. Sus orígenes, 
+            sus colores, lo que simbolizan y sobre todo, cómo cuidarlas para que pasen a la siguiente generación.
+          </p>
+          <Link href="/guias/guia-detallada-de-piedras-preciosas" className="btn-tertiary">Leer guía completa</Link>
         </article>
       </div>
     </div>
