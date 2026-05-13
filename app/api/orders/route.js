@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -35,7 +35,8 @@ export async function POST(request) {
       status: 'pendiente',
     }
 
-    const supabase = await createClient()
+    // Usar cliente admin para bypasear RLS (solo en servidor)
+    const supabase = createAdminClient()
 
     const { data: order, error: orderError } = await supabase
       .from('orders')
