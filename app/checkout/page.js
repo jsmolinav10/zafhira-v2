@@ -14,6 +14,7 @@ export default function CheckoutPage() {
   const [orderId, setOrderId] = useState(null)
   const [proofFile, setProofFile] = useState(null)
   const [proofPreview, setProofPreview] = useState(null)
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false)
 
   const [form, setForm] = useState({
     email: '', name: '', address: '', city: '', phone: '',
@@ -280,7 +281,13 @@ export default function CheckoutPage() {
                 display: 'inline-block',
                 marginBottom: '1rem',
                 border: '2px solid var(--primary)',
-              }}>
+                cursor: 'zoom-in',
+                transition: 'transform 0.2s ease',
+              }}
+              onClick={() => setIsQRModalOpen(true)}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
                   src="/assets/qr-nequi.jpeg" 
@@ -288,6 +295,13 @@ export default function CheckoutPage() {
                   style={{ width: '220px', height: 'auto', display: 'block', borderRadius: '8px' }} 
                 />
               </div>
+              <p 
+                style={{ fontSize: '0.75rem', color: 'var(--primary)', marginTop: '-0.5rem', marginBottom: '1.5rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }} 
+                onClick={() => setIsQRModalOpen(true)}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                Toca para ampliar
+              </p>
               <div style={{ color: 'var(--on-surface)' }}>
                 <p style={{ fontWeight: 'bold', fontSize: '1rem', marginBottom: '0.2rem' }}>Zafhira Joyeria</p>
                 <p style={{ fontSize: '0.85rem', color: 'var(--on-surface-variant)', marginBottom: '0.5rem' }}>Jhoan Molina</p>
@@ -473,6 +487,61 @@ export default function CheckoutPage() {
         }
       `}</style>
     </section>
+
+    {/* QR Modal Overlay */}
+    {isQRModalOpen && (
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem',
+        backdropFilter: 'blur(5px)',
+        cursor: 'zoom-out',
+        animation: 'fadeIn 0.2s ease-out'
+      }} onClick={() => setIsQRModalOpen(false)}>
+        <div style={{
+          background: '#fff',
+          padding: '2rem',
+          borderRadius: '16px',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+          cursor: 'default',
+          animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+        }} onClick={e => e.stopPropagation()}>
+          <h3 style={{ color: '#000', fontFamily: 'var(--font-heading)', fontSize: '1.2rem', marginBottom: '1.5rem' }}>Escanea para pagar</h3>
+          <img 
+            src="/assets/qr-nequi.jpeg" 
+            alt="QR Nequi Zafhira Ampliado" 
+            style={{ width: '100%', maxWidth: '400px', height: 'auto', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid #eee' }} 
+          />
+          <p style={{ color: '#000', fontWeight: 'bold', fontSize: '1.3rem', marginBottom: '0.2rem' }}>Zafhira Joyeria</p>
+          <p style={{ color: '#666', fontSize: '1rem', marginBottom: '1.5rem' }}>Jhoan Molina</p>
+          <div style={{ background: '#f8f9fa', padding: '12px 24px', borderRadius: '8px', border: '1px solid #e9ecef', fontFamily: 'monospace', fontSize: '1.3rem', color: '#000', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            🔑 0092106099
+          </div>
+          <button 
+            onClick={() => setIsQRModalOpen(false)}
+            className="btn-primary"
+            style={{ marginTop: '2rem', padding: '12px 30px', width: '100%', fontSize: '0.9rem', letterSpacing: '0.1em' }}
+          >
+            CERRAR
+          </button>
+        </div>
+        <style jsx>{`
+          @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        `}</style>
+      </div>
+    )}
+
     </div>
   )
 }
