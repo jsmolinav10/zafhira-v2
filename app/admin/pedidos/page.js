@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import OrderActions from './OrderActions'
 
 async function updateOrderStatus(formData) {
   'use server'
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const id = formData.get('id')
   const newStatus = formData.get('newStatus')
 
@@ -14,8 +14,7 @@ async function updateOrderStatus(formData) {
 }
 
 export default async function PedidosPage() {
-  const supabase = await createClient()
-  
+  const supabase = createAdminClient()  
   const { data: orders } = await supabase
     .from('orders')
     .select('*')
