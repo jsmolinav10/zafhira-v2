@@ -37,9 +37,11 @@ export default function AboutClient({ galleryItems }) {
             animate={{ opacity: 1, x: 0 }} 
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="founder-image-container"
+            style={{ display: 'flex', justifyContent: 'center' }}
           >
             <div style={{
               width: '100%',
+              maxWidth: '350px',
               aspectRatio: '1/1',
               borderRadius: '50%',
               overflow: 'hidden',
@@ -290,7 +292,7 @@ export default function AboutClient({ galleryItems }) {
           margin: 0 auto;
         }
 
-        /* --- MARCO DE CUADRO CLÁSICO --- */
+        /* --- MARCO DE CUADRO CLÁSICO (NIVEL MUSEO) --- */
         .gallery-frame {
           cursor: pointer;
           width: 100%;
@@ -298,22 +300,30 @@ export default function AboutClient({ galleryItems }) {
           position: relative;
           background: #0a0a0a;
           
-          /* Borde Dorado tipo Marco de Museo */
-          border: 12px solid var(--primary);
-          border-style: ridge;
-          border-radius: 4px; /* Bordes rectos clásicos */
+          /* Marco Dorado Realista con Degradado */
+          border: 18px solid #b8860b;
+          border-image: linear-gradient(135deg, #fceabb 0%, #d4af37 25%, #8a6327 50%, #d4af37 75%, #fceabb 100%) 1;
           
-          /* Sombras para profundidad */
-          box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.9);
+          /* Capas del Marco (Borde exterior de madera, bisel interno oscuro y filo dorado) */
+          box-shadow: 
+            0 0 0 4px #3e2723, /* Marco exterior oscuro */
+            inset 0 0 0 8px #1a1a1a, /* Bisel interior oscuro */
+            inset 0 0 0 10px #d4af37, /* Filo dorado pegado al lienzo */
+            inset 0 0 30px 15px rgba(0,0,0,0.9), /* Sombra profunda sobre el video/foto */
+            0 25px 50px rgba(0,0,0,0.8); /* Sombra pesada del cuadro en la pared */
           
-          /* Passepartout (Margen interno del cuadro) */
-          padding: 8px; 
+          padding: 10px; /* Espacio para el bisel */
           transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .gallery-frame:hover {
           transform: translateY(-5px) scale(1.02);
-          box-shadow: 0 25px 45px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,0.6);
+          box-shadow: 
+            0 0 0 4px #3e2723,
+            inset 0 0 0 8px #1a1a1a,
+            inset 0 0 0 10px #d4af37,
+            inset 0 0 25px 12px rgba(0,0,0,0.8),
+            0 35px 60px rgba(0,0,0,0.9);
         }
 
         .gallery-media-wrapper {
