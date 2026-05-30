@@ -115,32 +115,62 @@ export default function AboutClient({ galleryItems }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-                className="gallery-item"
-                onClick={() => setSelectedItem(item)}
+                className="gallery-item-container"
               >
-                <div className="gallery-media-wrapper">
-                  {isVideo(item.image_url) ? (
-                    <video 
-                      src={item.image_url} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      className="gallery-media"
-                    />
-                  ) : (
-                    <img 
-                      src={item.image_url} 
-                      alt={item.title} 
-                      className="gallery-media"
-                      loading="lazy"
-                    />
-                  )}
-                  <div className="gallery-overlay">
-                    <span style={{ fontFamily: '"Noto Serif", Georgia, serif', fontSize: '1.2rem', color: '#fff' }}>{item.title}</span>
-                    <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '0.5rem', color: 'rgba(255,255,255,0.7)' }}>Ver Historia</span>
+                {/* MARCO DORADO CLÁSICO (CUADRO) */}
+                <div 
+                  className="gallery-frame"
+                  onClick={() => setSelectedItem(item)}
+                  onMouseEnter={(e) => {
+                    const video = e.currentTarget.querySelector('video');
+                    if (video) video.play().catch(() => {});
+                  }}
+                  onMouseLeave={(e) => {
+                    const video = e.currentTarget.querySelector('video');
+                    if (video) video.pause();
+                  }}
+                >
+                  <div className="gallery-media-wrapper">
+                    {isVideo(item.image_url) ? (
+                      <video 
+                        src={item.image_url} 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="gallery-media"
+                        /* Se eliminó autoPlay para reproducir solo en hover */
+                      />
+                    ) : (
+                      <img 
+                        src={item.image_url} 
+                        alt={item.title} 
+                        className="gallery-media"
+                        loading="lazy"
+                      />
+                    )}
+                    
+                    {/* Indicador de Video en Móvil */}
+                    {isVideo(item.image_url) && (
+                      <div className="video-indicator">
+                        ▶ Reproducir Video
+                      </div>
+                    )}
                   </div>
                 </div>
+
+                {/* PLACA DE MUSEO (TÍTULO Y DESCRIPCIÓN) */}
+                <div className="gallery-plaque">
+                  <h3 className="plaque-title">{item.title}</h3>
+                  <p className="plaque-desc">
+                    {item.description 
+                      ? (item.description.length > 120 ? item.description.substring(0, 120) + '...' : item.description)
+                      : 'Una pieza única forjada artesanalmente para inmortalizar un momento especial.'}
+                  </p>
+                  <button className="plaque-btn" onClick={() => setSelectedItem(item)}>
+                    LEER LA HISTORIA COMPLETA
+                  </button>
+                </div>
+
               </motion.div>
             ))}
           </div>
@@ -246,61 +276,138 @@ export default function AboutClient({ galleryItems }) {
 
         .masonry-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 24px;
-          grid-auto-rows: minmax(300px, auto);
+          /* Reducido el tamaño mínimo en móviles para que no se vea gigante */
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 3rem 2rem;
+          justify-content: center;
         }
 
-        .gallery-item {
+        .gallery-item-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          max-width: 360px; /* Evita que el video sea masivo en pantallas anchas sin columnas */
+          margin: 0 auto;
+        }
+
+        /* --- MARCO DE CUADRO CLÁSICO --- */
+        .gallery-frame {
           cursor: pointer;
-          border-radius: 12px;
-          overflow: hidden;
-          background: var(--surface-container);
-          position: relative;
+          width: 100%;
           aspect-ratio: 4/5;
+          position: relative;
+          background: #0a0a0a;
+          
+          /* Borde Dorado tipo Marco de Museo */
+          border: 12px solid var(--primary);
+          border-style: ridge;
+          border-radius: 4px; /* Bordes rectos clásicos */
+          
+          /* Sombras para profundidad */
+          box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.9);
+          
+          /* Passepartout (Margen interno del cuadro) */
+          padding: 8px; 
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .gallery-frame:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 25px 45px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,0.6);
         }
 
         .gallery-media-wrapper {
           width: 100%;
           height: 100%;
           position: relative;
+          overflow: hidden;
+          background: #000;
+          border: 1px solid rgba(212, 175, 55, 0.4); /* Línea fina interna */
         }
 
         .gallery-media {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 700ms ease;
+          transition: filter 0.5s ease;
         }
 
-        .gallery-item:hover .gallery-media {
-          transform: scale(1.05);
+        .gallery-frame:hover .gallery-media {
+          filter: brightness(1.1);
         }
 
-        .gallery-overlay {
+        .video-indicator {
           position: absolute;
-          inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          padding: 24px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0, 0, 0, 0.7);
+          color: var(--primary);
+          padding: 8px 16px;
+          border: 1px solid var(--primary);
+          border-radius: 20px;
+          font-size: 0.75rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          pointer-events: none;
+          opacity: 1;
+          transition: opacity 0.3s;
+        }
+
+        .gallery-frame:hover .video-indicator {
           opacity: 0;
-          transition: opacity 300ms ease;
         }
 
         @media (hover: none) {
-           .gallery-overlay { opacity: 1; }
+          .gallery-frame:active .video-indicator {
+            opacity: 0;
+          }
         }
 
-        .gallery-item:hover .gallery-overlay {
-          opacity: 1;
+        /* --- PLACA DE MUSEO INFERIOR --- */
+        .gallery-plaque {
+          margin-top: 1.5rem;
+          text-align: center;
+          padding: 0 1rem;
         }
 
+        .plaque-title {
+          font-family: '"Noto Serif", Georgia, serif';
+          font-size: 1.25rem;
+          color: var(--primary);
+          margin-bottom: 0.5rem;
+        }
+
+        .plaque-desc {
+          font-size: 0.85rem;
+          color: var(--on-surface-variant);
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+
+        .plaque-btn {
+          background: none;
+          border: none;
+          border-bottom: 1px solid var(--primary);
+          color: var(--on-surface);
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.7rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          cursor: pointer;
+          padding-bottom: 4px;
+          transition: color 0.3s ease;
+        }
+
+        .plaque-btn:hover {
+          color: var(--primary);
+        }
+
+        /* --- MODAL --- */
         .gallery-modal-backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.85);
+          background: rgba(0, 0, 0, 0.9);
           backdrop-filter: blur(10px);
           z-index: 1000;
           display: flex;
@@ -314,11 +421,11 @@ export default function AboutClient({ galleryItems }) {
           width: 100%;
           max-width: 1100px;
           height: 80vh;
-          border-radius: 16px;
+          border-radius: 4px; /* Combinar con el estilo clásico */
           overflow: hidden;
           position: relative;
-          box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-          border: 1px solid var(--outline-variant);
+          box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+          border: 1px solid var(--primary);
         }
 
         .gallery-modal-close {
@@ -327,7 +434,7 @@ export default function AboutClient({ galleryItems }) {
           right: 16px;
           background: rgba(0,0,0,0.5);
           color: #fff;
-          border: none;
+          border: 1px solid rgba(255,255,255,0.2);
           width: 36px;
           height: 36px;
           border-radius: 50%;
@@ -336,11 +443,12 @@ export default function AboutClient({ galleryItems }) {
           justify-content: center;
           cursor: pointer;
           z-index: 10;
-          transition: background 200ms;
+          transition: background 200ms, border-color 200ms;
         }
         
         .gallery-modal-close:hover {
           background: var(--primary);
+          border-color: var(--primary);
         }
 
         .gallery-modal-grid {
@@ -356,7 +464,7 @@ export default function AboutClient({ galleryItems }) {
         }
 
         .gallery-modal-media {
-          background: var(--surface-low);
+          background: #000;
           height: 30vh;
         }
 
