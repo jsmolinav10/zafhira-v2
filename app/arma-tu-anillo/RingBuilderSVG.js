@@ -14,7 +14,7 @@ export const RingBand = ({ config, metals }) => {
 
   // Render logic...
   return (
-    <svg viewBox="0 0 400 400" className="absolute top-0 left-0 w-full h-full drop-shadow-2xl">
+    <svg viewBox="0 0 400 400" className="svg-layer svg-ring-band">
       <defs>
         <linearGradient id="bandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={metal.gradient[0]} />
@@ -53,7 +53,7 @@ export const RingBand = ({ config, metals }) => {
            stroke="url(#bandGrad)" 
            strokeWidth={strokeWidth} 
            filter={isHammered ? "url(#hammered)" : isSatin ? "url(#satin)" : "url(#pbrLighting)"} 
-           className="transition-all duration-700 ease-in-out" />
+           className="svg-animated-path" />
          
          {profile === 'knife-edge' && (
             <ellipse cx="200" cy="220" rx="120" ry="80" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.4" />
@@ -71,7 +71,7 @@ export const SettingMount = ({ config, settings, metals }) => {
   const metal = metals.find(m => m.id === config.metalId) || metals[0];
 
   return (
-    <svg viewBox="0 0 400 400" className="absolute top-0 left-0 w-full h-full z-10 drop-shadow-md pointer-events-none">
+    <svg viewBox="0 0 400 400" className="svg-layer svg-setting">
       <defs>
         <linearGradient id="settingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={metal.gradient[0]} />
@@ -135,7 +135,7 @@ export const GemStone = ({ config, gems, shapes }) => {
 
   // Función para generar reflexiones internas basadas en Refracción
   return (
-    <svg viewBox="0 0 400 400" className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none drop-shadow-2xl">
+    <svg viewBox="0 0 400 400" className="svg-layer svg-gem">
       <defs>
         <radialGradient id="gemRefraction" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
           <stop offset="0%" stopColor={gem.sparkle} stopOpacity="0.9" />

@@ -1,0 +1,337 @@
+/* app/arma-tu-anillo/ring-builder.css */
+.ring-builder-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  color: var(--on-surface);
+  overflow: hidden;
+  padding-top: 80px; /* offset for glass header */
+}
+
+@media (min-width: 992px) {
+  .ring-builder-container {
+    flex-direction: row;
+    padding-top: 0;
+  }
+}
+
+.visualizer-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, var(--surface-high) 0%, var(--bg-base) 100%);
+  min-height: 60vh;
+}
+
+@media (min-width: 992px) {
+  .visualizer-area {
+    padding-top: 80px; /* header offset */
+  }
+}
+
+.canvas-container {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  transform: scale(1.05);
+  transition: transform 500ms var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .canvas-container {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+.canvas-container:hover {
+  transform: scale(1.1);
+}
+
+.ring-shadow {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.6);
+  filter: blur(20px);
+  border-radius: 50%;
+}
+
+.price-tag {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  background: rgba(12, 18, 39, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--outline-variant);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 40;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.price-value {
+  font-size: 1.8rem;
+  font-family: 'Noto Serif', serif;
+  color: var(--primary);
+}
+
+.control-panel {
+  width: 100%;
+  background-color: var(--surface);
+  border-left: 1px solid var(--outline-variant);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  z-index: 30;
+}
+
+@media (min-width: 992px) {
+  .control-panel {
+    width: 450px;
+    height: 100vh;
+    padding-top: 80px; /* for header */
+  }
+}
+
+.panel-header {
+  padding: 32px;
+  border-bottom: 1px solid var(--outline-variant);
+  background: rgba(12, 18, 39, 0.95);
+  backdrop-filter: blur(8px);
+}
+
+.panel-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+.panel-header p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tabs-nav {
+  display: flex;
+  border-bottom: 1px solid var(--outline-variant);
+  background-color: var(--surface-low);
+  overflow-x: auto;
+}
+
+.tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  white-space: nowrap;
+  padding: 16px 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 200ms ease;
+  font-family: 'Manrope', sans-serif;
+}
+
+.tab-btn:hover {
+  color: var(--on-surface);
+}
+
+.tab-btn.active {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+.tab-content::-webkit-scrollbar {
+  width: 6px;
+}
+.tab-content::-webkit-scrollbar-thumb {
+  background: var(--surface-high);
+  border-radius: 10px;
+}
+
+.section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--on-surface-variant);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 1px;
+  background-color: var(--primary);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.options-grid.cols-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.options-grid.cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.option-btn {
+  background: var(--surface-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 200ms ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--on-surface);
+}
+
+.option-btn:hover {
+  border-color: var(--primary-dim);
+  background: var(--surface-container);
+}
+
+.option-btn.selected {
+  border-color: var(--primary);
+  background: var(--surface-high);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.option-icon {
+  font-size: 1.5rem;
+}
+
+.metal-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.option-info p {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.option-info span {
+  font-size: 0.7rem;
+  color: var(--primary-dim);
+}
+
+.range-slider {
+  width: 100%;
+  appearance: none;
+  background: var(--surface-high);
+  height: 4px;
+  border-radius: 4px;
+  outline: none;
+}
+.range-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+}
+
+.summary-card {
+  background: var(--surface-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.summary-card dl {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-card div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.summary-card dt {
+  color: var(--text-muted);
+}
+
+.summary-card dd {
+  font-weight: 500;
+  text-transform: capitalize;
+  text-align: right;
+}
+
+.summary-divider {
+  border-top: 1px solid var(--outline-variant);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+/* SVG Classes */
+.svg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.svg-ring-band {
+  filter: drop-shadow(0 25px 25px rgba(0,0,0,0.5));
+}
+.svg-animated-path {
+  transition: all 700ms var(--ease-out);
+}
+.svg-setting {
+  z-index: 10;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+.svg-gem {
+  z-index: 20;
+  filter: drop-shadow(0 25px 25px rgba(0,0,0,0.5));
+  pointer-events: none;
+}
