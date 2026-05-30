@@ -37,7 +37,7 @@ export default function AboutClient({ galleryItems }) {
             animate={{ opacity: 1, x: 0 }} 
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="founder-image-container"
-            style={{ display: 'flex', justifyContent: 'center' }}
+            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <div style={{
               width: '100%',
