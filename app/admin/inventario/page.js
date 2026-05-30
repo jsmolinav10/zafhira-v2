@@ -13,6 +13,7 @@ async function uploadProduct(formData) {
   const mainCategory = formData.get('main_category')
   const subcategory = formData.get('subcategory')
   const category = `${mainCategory}: ${subcategory}`
+  const material = formData.get('material')
   const status = formData.get('status') || 'disponible'
   const imageFile = formData.get('image')
 
@@ -41,10 +42,12 @@ async function uploadProduct(formData) {
   }
 
   const is_featured = formData.get('is_featured') === 'on'
+  
+  const finalDescription = material ? `Material: ${material}\n\n${description}` : description
 
   const { error } = await supabase
     .from('products')
-    .insert([{ title, description, price: parseFloat(price.toString().replace(/\./g, '')), category, image_url, status, is_featured }])
+    .insert([{ title, description: finalDescription, price: parseFloat(price.toString().replace(/\./g, '')), category, image_url, status, is_featured }])
 
   if (error) {
     console.error('Error inserting product:', error)
@@ -113,6 +116,11 @@ export default async function InventoryPage() {
             </div>
             
             <CategorySelector />
+
+            <div>
+              <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Material</label>
+              <input name="material" placeholder="Ej. Oro 18K, Plata 925..." style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
+            </div>
 
             <div>
               <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Precio (COP)</label>
