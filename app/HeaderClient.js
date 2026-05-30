@@ -16,7 +16,7 @@ export default function HeaderClient() {
         <Link href="/catalogo">Catálogo</Link>
         {/* <Link href="/arma-tu-anillo" style={{ color: 'var(--primary)', fontWeight: 600 }}>Arma tu Anillo ✨</Link> */}
         <Link href="/guias">Guías y Consejos</Link>
-        <Link href="/nosotros" style={{ marginLeft: '4rem', whiteSpace: 'nowrap', color: 'var(--primary)', fontWeight: 600 }}>
+        <Link href="/nosotros" style={{ whiteSpace: 'nowrap', color: 'var(--primary)', fontWeight: 600 }}>
           Sobre Nosotros ✨
         </Link>
       </nav>
