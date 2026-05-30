@@ -20,15 +20,7 @@ export default function AboutClient({ galleryItems }) {
   return (
     <div className="page-enter" style={{ minHeight: '100vh', backgroundColor: 'var(--bg-base)' }}>
       {/* SECCIÓN SOBRE NOSOTROS (FOUNDER) */}
-      <section style={{ 
-        maxWidth: '1200px', 
-        margin: '0 auto', 
-        padding: '8rem 6% 4rem',
-        display: 'grid',
-        gridTemplateColumns: '1fr',
-        gap: '4rem',
-        alignItems: 'center'
-      }}>
+      <section className="about-hero-section">
         {/* Usaremos un layout en CSS Grid */}
         <div className="founder-grid">
           
@@ -262,6 +254,22 @@ export default function AboutClient({ galleryItems }) {
       </AnimatePresence>
 
       <style jsx>{`
+        .about-hero-section {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 16rem 6% 4rem; /* Padding superior enorme en móviles para esquivar el header fijo */
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 4rem;
+          align-items: center;
+        }
+
+        @media (min-width: 768px) {
+          .about-hero-section {
+            padding: 10rem 6% 4rem; /* Padding normal en PC */
+          }
+        }
+
         .founder-grid {
           display: grid;
           grid-template-columns: 1fr;
