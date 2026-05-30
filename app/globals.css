@@ -288,6 +288,23 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   }
 }
 
+.nav-highlight {
+  white-space: nowrap;
+  color: var(--primary) !important;
+  font-weight: 600 !important;
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s var(--ease-out), color 0.3s ease, text-shadow 0.3s ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-highlight:hover {
+    color: var(--primary-dim) !important;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px) scale(1.05);
+  }
+}
+
 .glass-header .logo {
   font-family: 'Noto Serif', serif;
   font-size: 1.4rem;
