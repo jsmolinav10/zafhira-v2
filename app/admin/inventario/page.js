@@ -104,7 +104,7 @@ export default async function InventoryPage() {
       <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--on-surface)', fontSize: '2rem', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>Mis Creaciones</h1>
       <p style={{ color: 'var(--on-surface-variant)', fontSize: '0.9rem', marginBottom: '3rem' }}>Gestiona el inventario que se mostrará en el catálogo de Zafhira.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '3rem' }}>
+      <div className="admin-layout">
         
         {/* Formulario de Creación */}
         <div className="panel-elevated" style={{ padding: '2rem', height: 'fit-content' }}>
@@ -132,7 +132,7 @@ export default async function InventoryPage() {
               <input type="file" name="image" accept="image/*,video/mp4,video/quicktime" required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+            <div className="admin-form-row">
               <div>
                 <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Estado</label>
                 <select name="status" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
@@ -167,7 +167,7 @@ export default async function InventoryPage() {
               </div>
             ) : (
                 products.map(p => (
-                  <div key={p.id} className="panel-elevated" style={{ padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div key={p.id} className="panel-elevated admin-list-item">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                        <div style={{ 
                          width: '50px', height: '50px', 
@@ -199,7 +199,7 @@ export default async function InventoryPage() {
                          <div style={{ fontSize: '0.75rem', color: 'var(--on-surface-variant)' }}>{p.category}</div>
                        </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div className="admin-list-actions">
                       <div style={{ fontWeight: 500, color: 'var(--primary)', fontFamily: 'var(--font-heading)', whiteSpace: 'nowrap' }}>
                          ${p.price.toLocaleString('es-CO')}
                       </div>
