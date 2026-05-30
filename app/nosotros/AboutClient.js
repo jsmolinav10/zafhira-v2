@@ -40,8 +40,7 @@ export default function AboutClient({ galleryItems }) {
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <div style={{
-              width: '100%',
-              maxWidth: '350px',
+              width: 'min(60vw, 350px)',
               aspectRatio: '1/1',
               borderRadius: '50%',
               overflow: 'hidden',
