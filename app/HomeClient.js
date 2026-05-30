@@ -44,7 +44,7 @@ export default function HomeClient({ featured }) {
         padding: '0 8%',
         position: 'relative',
       }}>
-        <p className="text-title text-gold fade-in" style={{ marginBottom: '0.5rem' }}>
+        <p className="text-gold fade-in font-serif" style={{ marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '1.2rem' }}>
           Joyería de autor
         </p>
         <p className="text-label fade-in stagger-1" style={{ marginBottom: '1.5rem', opacity: 0.8, letterSpacing: '0.2em' }}>

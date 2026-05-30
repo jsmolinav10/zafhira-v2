@@ -60,7 +60,7 @@ export default function AboutClient({ galleryItems }) {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             className="founder-text-container"
           >
-            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.5rem', color: 'var(--primary)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
+            <h1 style={{ fontFamily: '"Noto Serif", Georgia, serif', fontSize: '2.5rem', color: 'var(--primary)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
               Inmortalizamos Momentos
             </h1>
             
@@ -94,7 +94,7 @@ export default function AboutClient({ galleryItems }) {
       {/* SECCIÓN GALERÍA INMERSIVA */}
       <section ref={galleryRef} style={{ maxWidth: '1400px', margin: '0 auto', padding: '4rem 6% 8rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', color: 'var(--on-surface)', letterSpacing: '0.05em' }}>
+           <h2 style={{ fontFamily: '"Noto Serif", Georgia, serif', fontSize: '2rem', color: 'var(--on-surface)', letterSpacing: '0.05em' }}>
              Galería de Trabajos Personalizados
            </h2>
            <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontSize: '0.9rem' }}>
@@ -137,7 +137,7 @@ export default function AboutClient({ galleryItems }) {
                     />
                   )}
                   <div className="gallery-overlay">
-                    <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#fff' }}>{item.title}</span>
+                    <span style={{ fontFamily: '"Noto Serif", Georgia, serif', fontSize: '1.2rem', color: '#fff' }}>{item.title}</span>
                     <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '0.5rem', color: 'rgba(255,255,255,0.7)' }}>Ver Historia</span>
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export default function AboutClient({ galleryItems }) {
                   <span style={{ fontSize: '0.75rem', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
                     Trabajo Personalizado
                   </span>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', color: 'var(--on-surface)', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
+                  <h3 style={{ fontFamily: '"Noto Serif", Georgia, serif', fontSize: '2rem', color: 'var(--on-surface)', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
                     {selectedItem.title}
                   </h3>
                   
