@@ -56,9 +56,21 @@ export default function ProductDetailClient({ product, related }) {
     showToast(`${product.title} añadido al carrito.`)
   }
 
+  const isSilver = product.title?.toLowerCase().includes('plata') || product.description?.toLowerCase().includes('plata')
+  const isGold = product.title?.toLowerCase().includes('oro') || product.description?.toLowerCase().includes('oro')
+
+  let materialDesc = 'Nuestras joyas son forjadas con metales nobles y piedras preciosas naturales certificadas, seleccionadas con los más altos estándares de calidad.'
+  if (isSilver && !isGold) {
+    materialDesc = 'Forjado en Plata 950. Esta aleación premium está compuesta por un 95% de plata pura y un 5% de metales endurecedores (como cobre), logrando el equilibrio perfecto entre maleabilidad artesanal, durabilidad extrema y un brillo blanco excepcional. Todas nuestras gemas son naturales y certificadas.'
+  } else if (isGold && !isSilver) {
+    materialDesc = 'Forjado en Oro de 18 Quilates (18K). Compuesto por un 75% de oro puro de 24K y un 25% de aleaciones maestras (como plata y cobre) que garantizan su dureza estructural, resistencia al desgaste y un color inalterable de por vida. Gemas naturales certificadas.'
+  } else {
+    materialDesc = 'Forjado en metales nobles (Oro 18K o Plata 950). El Oro 18K (75% oro puro, 25% aleaciones) garantiza resistencia y color inalterable. La Plata 950 (95% plata pura, 5% cobre) otorga un brillo blanco excepcional. Gemas naturales certificadas.'
+  }
+
   const tabs = {
     detalles: product.description || 'Pieza de autor diseñada y fabricada artesanalmente en nuestro taller. Cada joya es una expresión única de elegancia y maestría orfebrera.',
-    materiales: 'Oro de 18 quilates, piedras preciosas naturales certificadas. Cada material es seleccionado con los más altos estándares de calidad para garantizar la durabilidad y el brillo de su pieza.',
+    materiales: materialDesc,
     envio: 'Envío estándar gratuito (3-5 días hábiles). Envío exprés disponible por $20.000 COP (1-2 días hábiles). Todas las piezas se envían en un estuche de lujo Zafhira con certificado de autenticidad.',
   }
 
@@ -247,22 +259,7 @@ export default function ProductDetailClient({ product, related }) {
               </p>
             </div>
 
-            {/* Payment Icons */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--on-surface-variant)', fontSize: '0.75rem' }}>
-              <span>Opciones de pago:</span>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {['QR Bancario', 'Transferencia'].map(method => (
-                  <span key={method} style={{
-                    padding: '4px 10px',
-                    border: '1px solid var(--outline-variant)',
-                    fontSize: '0.65rem',
-                    letterSpacing: '0.05em',
-                  }}>
-                    {method}
-                  </span>
-                ))}
-              </div>
-            </div>
+
           </div>
         </div>
 
