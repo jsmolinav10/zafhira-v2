@@ -26,6 +26,10 @@ const subcategoriesMap = {
     'Argollas',
     'Largos',
     'Ear Cuffs'
+  ],
+  'Galería': [
+    'Trabajos Personalizados',
+    'Alta Joyería'
   ]
 }
 
@@ -57,6 +61,7 @@ export default function CategorySelector({ defaultValue = 'Anillos: ' }) {
           <option value="Collares">Collares</option>
           <option value="Brazaletes">Brazaletes</option>
           <option value="Aretes">Aretes</option>
+          <option value="Galería">Galería de Trabajos</option>
         </select>
       </div>
       <div>

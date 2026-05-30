@@ -128,8 +128,8 @@ export default async function InventoryPage() {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Imagen de la Joya</label>
-              <input type="file" name="image" accept="image/*" required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
+              <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Archivo Multimedia (Foto o Video)</label>
+              <input type="file" name="image" accept="image/*,video/mp4,video/quicktime" required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>

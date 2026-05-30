@@ -10,7 +10,11 @@ export const revalidate = 0 // Opt out of caching so new inventory items show up
 
 export default async function CatalogPage() {
   const supabase = await createClient()
-  const { data: catalog, error } = await supabase.from('products').select('*').order('created_at', { ascending: false })
+  const { data: catalog, error } = await supabase
+    .from('products')
+    .select('*')
+    .not('category', 'ilike', 'Galería%')
+    .order('created_at', { ascending: false })
 
   return <CatalogClient initialCatalog={catalog || []} />
 }
