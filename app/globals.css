@@ -583,6 +583,41 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .stagger-5 { transition-delay: 250ms; }
 
 /* === ADMIN RESPONSIVE LAYOUT === */
+.admin-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-base);
+}
+
+.admin-sidebar {
+  width: 100%;
+  background: var(--surface-low);
+  border-bottom: 1px solid var(--outline);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 992px) {
+  .admin-shell {
+    flex-direction: row;
+  }
+  .admin-sidebar {
+    width: 240px;
+    border-bottom: none;
+    border-right: 1px solid var(--outline);
+  }
+  .admin-main {
+    padding: 2rem 3rem;
+  }
+}
+
 .admin-layout {
   display: grid;
   grid-template-columns: 1fr;

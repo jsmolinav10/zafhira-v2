@@ -15,15 +15,9 @@ export default async function AdminLayout({ children }) {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-base)' }}>
+    <div className="admin-shell">
       {/* Sidebar */}
-      <aside style={{
-        width: '240px',
-        background: 'var(--surface-low)',
-        borderRight: '1px solid var(--outline)',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
+      <aside className="admin-sidebar">
         <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid var(--outline)' }}>
           <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--on-surface)', fontSize: '1.1rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Zafhira</h2>
           <p style={{ color: 'var(--primary)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>Bóveda Segura</p>
@@ -56,7 +50,7 @@ export default async function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: '2rem 3rem', overflowY: 'auto' }}>
+      <main className="admin-main">
         {children}
       </main>
     </div>
