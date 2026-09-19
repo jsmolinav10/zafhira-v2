@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import CategorySelector from '../../CategorySelector'
+import PriceCalculator from '../../PriceCalculator'
 
 async function updateProduct(formData) {
   'use server'
@@ -17,6 +18,9 @@ async function updateProduct(formData) {
   const category = `${mainCategory}: ${subcategory}`
   const status = formData.get('status')
   const is_featured = formData.get('is_featured') === 'on'
+  const reference = formData.get('reference') || ''
+  const production_cost = parseFloat(formData.get('production_cost') || '0')
+  const profit_margin_target = parseFloat(formData.get('profit_margin_target') || '40')
 
   const updateData = {
     title,
@@ -24,7 +28,10 @@ async function updateProduct(formData) {
     price: parseFloat(price.toString().replace(/\./g, '')),
     category,
     status,
-    is_featured
+    is_featured,
+    reference,
+    production_cost,
+    profit_margin_target
   }
 
   // Handle image upload if a new one is provided
@@ -32,7 +39,7 @@ async function updateProduct(formData) {
   if (imageFile && imageFile.size > 0) {
     const fileExt = imageFile.name.split('.').pop()
     const fileName = `${Math.random()}.${fileExt}`
-    
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('productos')
       .upload(fileName, imageFile, {
@@ -44,7 +51,7 @@ async function updateProduct(formData) {
       const { data } = supabase.storage
         .from('productos')
         .getPublicUrl(fileName)
-        
+
       updateData.image_url = data.publicUrl
     }
   }
@@ -65,9 +72,9 @@ async function updateProduct(formData) {
 }
 
 export default async function EditProductPage({ params }) {
-  const { id } = params
+  const { id } = await params
   const supabase = await createClient()
-  
+
   const { data: product, error } = await supabase
     .from('products')
     .select('*')
@@ -97,18 +104,25 @@ export default async function EditProductPage({ params }) {
       <div className="panel-elevated" style={{ padding: '2rem', maxWidth: '800px' }}>
         <form action={updateProduct} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <input type="hidden" name="id" value={product.id} />
-          
+
+          <div>
+            <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Referencia Interna</label>
+            <input name="reference" defaultValue={product.reference || ''} placeholder="Ej. AF-10550, ZF-M-B" style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
+          </div>
+
           <div>
             <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Título</label>
             <input name="title" defaultValue={product.title} required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
           </div>
-          
+
           <CategorySelector defaultValue={product.category} />
 
-          <div>
-            <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Precio (COP)</label>
-            <input name="price" type="number" defaultValue={product.price} required style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }} />
-          </div>
+          {/* Price Calculator with existing values */}
+          <PriceCalculator
+            defaultCost={product.production_cost}
+            defaultMargin={product.profit_margin_target || 40}
+            defaultPrice={product.price}
+          />
 
           <div>
             <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Imagen de la Joya (Opcional, dejar en blanco para mantener la actual)</label>
@@ -116,16 +130,16 @@ export default async function EditProductPage({ params }) {
               {product.image_url && (
                 <img src={product.image_url} alt="Actual" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--outline)' }} />
               )}
-              <input type="file" name="image" accept="image/*" style={{ flex: 1, padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
+              <input type="file" name="image" accept="image/*,video/mp4,video/quicktime" style={{ flex: 1, padding: '10px', background: 'var(--surface-container)', border: '1px dashed var(--outline)', color: 'var(--primary)', cursor: 'pointer' }} />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
               <label style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--on-surface-variant)', display: 'block', marginBottom: '4px' }}>Estado</label>
               <select name="status" defaultValue={product.status} style={{ width: '100%', padding: '10px', background: 'var(--surface-container)', border: '1px solid var(--outline-variant)', color: 'var(--on-surface)' }}>
                 <option value="disponible">✅ Disponible</option>
-                <option value="agotado">🔴 Agotado</option>
+                <option value="agotado">🛑 Agotado</option>
               </select>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', paddingTop: '18px' }}>

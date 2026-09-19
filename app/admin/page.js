@@ -8,9 +8,13 @@ export default function AnalyticsDashboard() {
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     totalSales: 0,
+    totalNetProfit: 0,
+    totalBalance: 0,
     aov: 0,
     orderCount: 0,
     productCount: 0,
+    inWorkshop: 0,
+    inTransit: 0,
     revenueData: [],
     inventoryData: []
   })
@@ -18,14 +22,14 @@ export default function AnalyticsDashboard() {
   useEffect(() => {
     async function fetchStats() {
       const supabase = createClient()
-      
-      // 1. Fetch Orders for Sales and AOV
+
+      // Fetch Orders for financial metrics and operational stats
       const { data: orders, error: ordersError } = await supabase
         .from('orders')
-        .select('total, created_at')
+        .select('total, created_at, production_cost, accessories_cost, shipping_cost, paid_amount, workshop_status, shipping_status, delivery_method')
         .order('created_at', { ascending: true })
 
-      // 2. Fetch Products for Inventory
+      // Fetch Products count
       const { count: productCount, error: productsError } = await supabase
         .from('products')
         .select('*', { count: 'exact', head: true })
@@ -36,18 +40,36 @@ export default function AnalyticsDashboard() {
         return
       }
 
-      // Process Sales Data
-      const totalSales = orders.reduce((acc, order) => acc + (order.total || 0), 0)
-      const orderCount = orders.length
+      const orderList = orders || []
+      const totalSales = orderList.reduce((acc, order) => acc + (order.total || 0), 0)
+      const orderCount = orderList.length
       const aov = orderCount > 0 ? totalSales / orderCount : 0
 
-      // Process Chart Data (Group by month)
+      const totalNetProfit = orderList.reduce((acc, o) => {
+        return acc + ((o.total || 0) - (o.production_cost || 0) - (o.accessories_cost || 0) - (o.shipping_cost || 0))
+      }, 0)
+
+      const totalBalance = orderList.reduce((acc, o) => {
+        const balance = (o.total || 0) - (o.paid_amount || 0)
+        return acc + (balance > 0 ? balance : 0)
+      }, 0)
+
+      const inWorkshop = orderList.filter(o =>
+        o.workshop_status && o.workshop_status !== 'listo' && o.workshop_status !== 'por_iniciar'
+      ).length
+
+      const inTransit = orderList.filter(o =>
+        o.shipping_status && o.shipping_status !== 'entregado' && o.shipping_status !== 'sin_despachar' && o.delivery_method !== 'oficina'
+      ).length
+
+      // Group monthly revenue and profit
       const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-      const groupedData = orders.reduce((acc, order) => {
-        const date = new Date(order.created_at)
+      const groupedData = orderList.reduce((acc, o) => {
+        const date = new Date(o.created_at)
         const month = months[date.getMonth()]
-        if (!acc[month]) acc[month] = { month, total: 0, count: 0 }
-        acc[month].total += order.total || 0
+        if (!acc[month]) acc[month] = { month, ventas: 0, ganancia: 0, count: 0 }
+        acc[month].ventas += o.total || 0
+        acc[month].ganancia += (o.total || 0) - (o.production_cost || 0) - (o.accessories_cost || 0) - (o.shipping_cost || 0)
         acc[month].count += 1
         return acc
       }, {})
@@ -56,13 +78,19 @@ export default function AnalyticsDashboard() {
 
       setStats({
         totalSales,
+        totalNetProfit,
+        totalBalance,
         aov,
         orderCount,
         productCount: productCount || 0,
+        inWorkshop,
+        inTransit,
         revenueData,
         inventoryData: [
           { name: 'Total Joyas', cantidad: productCount || 0 },
-          { name: 'Pedidos', cantidad: orderCount }
+          { name: 'Pedidos', cantidad: orderCount },
+          { name: 'En Taller', cantidad: inWorkshop },
+          { name: 'En Envío', cantidad: inTransit },
         ]
       })
       setLoading(false)
@@ -71,7 +99,7 @@ export default function AnalyticsDashboard() {
     fetchStats()
   }, [])
 
-  if (loading) return <div style={{ color: 'var(--on-surface-variant)', padding: '2rem' }}>Cargando boveda analítica...</div>
+  if (loading) return <div style={{ color: 'var(--on-surface-variant)', padding: '2rem' }}>Cargando bóveda analítica...</div>
 
   return (
     <div>
@@ -79,61 +107,90 @@ export default function AnalyticsDashboard() {
       <p style={{ color: 'var(--on-surface-variant)', fontSize: '0.9rem', marginBottom: '3rem' }}>Visión global de métricas reales desde Supabase.</p>
 
       {/* Top Value Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
-        <div className="panel-elevated" style={{ padding: '1.5rem' }}>
-          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ventas Totales</div>
-          <div style={{ color: 'var(--primary)', fontSize: '2rem', fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
-            ${(stats.totalSales / 1000).toFixed(1)}k
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ventas Totales</div>
+          <div style={{ color: 'var(--primary)', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
+            ${(stats.totalSales / 1000000).toFixed(1)}M
           </div>
-          <div style={{ color: '#00d084', fontSize: '0.75rem', marginTop: '0.5rem' }}>Basado en {stats.orderCount} pedidos</div>
+          <div style={{ color: '#51cf66', fontSize: '0.7rem', marginTop: '0.25rem' }}>Basado en {stats.orderCount} pedidos</div>
         </div>
-        <div className="panel-elevated" style={{ padding: '1.5rem' }}>
-          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ticket Promedio (AOV)</div>
-          <div style={{ color: 'var(--on-surface)', fontSize: '2rem', fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
-            ${(stats.aov / 1000).toFixed(1)}k
+
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ganancia Neta</div>
+          <div style={{ color: '#51cf66', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
+            ${(stats.totalNetProfit / 1000).toFixed(0)}k
           </div>
-          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.75rem', marginTop: '0.5rem' }}>Eficiencia de Venta</div>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', marginTop: '0.25rem' }}>Descontando taller y fletes</div>
         </div>
-        <div className="panel-elevated" style={{ padding: '1.5rem' }}>
-          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Piezas en Catálogo</div>
-          <div style={{ color: 'var(--on-surface)', fontSize: '2rem', fontFamily: 'var(--font-heading)', marginTop: '0.5rem' }}>
+
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Cartera Activa</div>
+          <div style={{ color: stats.totalBalance > 0 ? '#ff4444' : '#51cf66', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
+            ${stats.totalBalance > 0 ? (stats.totalBalance / 1000).toFixed(0) + 'k' : '0'}
+          </div>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', marginTop: '0.25rem' }}>
+            {stats.totalBalance > 0 ? 'Saldos pendientes' : 'Sin saldos pendientes ✅'}
+          </div>
+        </div>
+
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ticket Promedio</div>
+          <div style={{ color: 'var(--on-surface)', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
+            ${(stats.aov / 1000).toFixed(0)}k
+          </div>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', marginTop: '0.25rem' }}>AOV</div>
+        </div>
+
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>En Taller</div>
+          <div style={{ color: '#ffa94d', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
+            {stats.inWorkshop}
+          </div>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', marginTop: '0.25rem' }}>Piezas en producción</div>
+        </div>
+
+        <div className="panel-elevated" style={{ padding: '1.25rem' }}>
+          <div style={{ color: 'var(--on-surface-variant)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Piezas Catálogo</div>
+          <div style={{ color: 'var(--on-surface)', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', marginTop: '0.4rem' }}>
             {stats.productCount}
           </div>
-          <div style={{ color: '#00d084', fontSize: '0.75rem', marginTop: '0.5rem' }}>Inventario Activo</div>
+          <div style={{ color: '#51cf66', fontSize: '0.7rem', marginTop: '0.25rem' }}>Inventario activo</div>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
-        {/* Trend Revenue */}
+        {/* Trend Revenue and Net Profit */}
         <div className="panel-elevated" style={{ padding: '2rem', width: '100%', overflowX: 'auto' }}>
-           <h3 style={{ fontSize: '1rem', color: 'var(--on-surface)', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>Tendencia de Ventas (Mensual)</h3>
-           <div style={{ width: '100%', height: 300, minWidth: '400px' }}>
+          <h3 style={{ fontSize: '1rem', color: 'var(--on-surface)', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>Ventas vs Ganancia Neta (Mensual)</h3>
+          <div style={{ width: '100%', height: 300, minWidth: '400px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={stats.revenueData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--outline-variant)" vertical={false} />
                 <XAxis dataKey="month" stroke="var(--on-surface-variant)" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="var(--on-surface-variant)" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip contentStyle={{ background: 'var(--surface-container)', border: '1px solid var(--outline)', borderRadius: 0 }} />
-                <Line type="monotone" dataKey="total" name="Ventas" stroke="var(--primary)" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                <Tooltip contentStyle={{ background: 'var(--surface-container)', border: '1px solid var(--outline)', borderRadius: 0, color: 'var(--on-surface)' }} />
+                <Line type="monotone" dataKey="ventas" name="Ventas" stroke="var(--primary)" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="ganancia" name="Ganancia Neta" stroke="#51cf66" strokeWidth={2} dot={{ r: 3 }} strokeDasharray="5 5" />
               </LineChart>
             </ResponsiveContainer>
-           </div>
+          </div>
         </div>
 
         {/* Volume comparison */}
         <div className="panel-elevated" style={{ padding: '2rem', width: '100%', overflowX: 'auto' }}>
-           <h3 style={{ fontSize: '1rem', color: 'var(--on-surface)', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>Volumen Operativo</h3>
-           <div style={{ width: '100%', height: 300, minWidth: '400px' }}>
+          <h3 style={{ fontSize: '1rem', color: 'var(--on-surface)', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>Volumen Operativo</h3>
+          <div style={{ width: '100%', height: 300, minWidth: '400px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats.inventoryData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--outline-variant)" vertical={false} />
                 <XAxis dataKey="name" stroke="var(--on-surface-variant)" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="var(--on-surface-variant)" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip contentStyle={{ background: 'var(--surface-container)', border: '1px solid var(--outline)', borderRadius: 0, color: 'var(--on-surface)' }} itemStyle={{ color: 'var(--on-surface)'}} cursor={{fill: 'var(--surface-high)'}} />
+                <Tooltip contentStyle={{ background: 'var(--surface-container)', border: '1px solid var(--outline)', borderRadius: 0, color: 'var(--on-surface)' }} itemStyle={{ color: 'var(--on-surface)' }} cursor={{ fill: 'var(--surface-high)' }} />
                 <Bar dataKey="cantidad" name="Cantidad" fill="var(--outline-variant)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-           </div>
+          </div>
         </div>
       </div>
     </div>
