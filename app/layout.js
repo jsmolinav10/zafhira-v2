@@ -21,6 +21,9 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID?.trim();
+  const isValidGaId = Boolean(gaId && !gaId.includes('XXXX') && !gaId.includes('TU_CODIGO') && /^G-[A-Za-z0-9]+$/.test(gaId));
+
   return (
     <html lang="es">
       <body>
@@ -36,7 +39,7 @@ export default function RootLayout({ children }) {
             <WhatsAppButton />
           </CartProvider>
         </AuthProvider>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXX"} />
+        {isValidGaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   );

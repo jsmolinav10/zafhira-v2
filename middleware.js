@@ -1,30 +1,29 @@
 import { updateSession } from '@/lib/supabase/middleware'
+import { checkRateLimit } from '@/lib/rateLimit'
 import { NextResponse } from 'next/server'
 
-// Limitador de peticiones en memoria básico (Edge Runtime)
-// Nota: en producción con Vercel esto se reinicia frecuentemente, es mejor usar Upstash Redis.
-const rateLimitMap = new Map();
-
 export async function middleware(request) {
-  // Aplicar Rate Limiting solo a las rutas de API
+  // Aplicar Rate Limiting a las rutas de API
   if (request.nextUrl.pathname.startsWith('/api/')) {
-    const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? 'unknown-ip';
-    const currentTime = Date.now();
+    const forwarded = request.headers.get('x-forwarded-for');
+    const ip = request.ip ?? (forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1');
     
-    if (rateLimitMap.has(ip)) {
-      const data = rateLimitMap.get(ip);
-      // Limpiar datos antiguos (ej: 1 minuto de ventana)
-      if (currentTime - data.timestamp > 60000) {
-        rateLimitMap.set(ip, { count: 1, timestamp: currentTime });
-      } else {
-        if (data.count >= 20) { // Límite de 20 peticiones por minuto
-          return NextResponse.json({ error: 'Demasiadas peticiones. Intenta de nuevo más tarde.' }, { status: 429 });
+    // Limite de 20 peticiones por minuto
+    const result = await checkRateLimit(ip, { limit: 20, windowSeconds: 60 });
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Demasiadas peticiones. Intenta de nuevo más tarde.' },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': String(result.limit),
+            'X-RateLimit-Remaining': String(result.remaining),
+            'X-RateLimit-Reset': String(result.reset),
+            'Retry-After': '60',
+          },
         }
-        data.count++;
-        rateLimitMap.set(ip, data);
-      }
-    } else {
-      rateLimitMap.set(ip, { count: 1, timestamp: currentTime });
+      );
     }
   }
 

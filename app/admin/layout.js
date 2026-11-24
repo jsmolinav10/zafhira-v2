@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
+import { isAdmin } from '@/lib/auth/admin'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export const metadata = {
   title: 'Zafhira | Bóveda',
@@ -9,9 +11,44 @@ export default async function AdminLayout({ children }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // If no user, render children without sidebar (login page will handle itself)
+  // Si no hay usuario autenticado, renderizar children (para /admin/login)
   if (!user) {
     return <>{children}</>
+  }
+
+  // Si está autenticado pero no tiene privilegios de admin
+  if (!isAdmin(user)) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'var(--bg-base)',
+        padding: '2rem'
+      }}>
+        <div className="panel-elevated" style={{ maxWidth: '480px', textAlign: 'center', padding: '2.5rem' }}>
+          <h2 style={{ color: '#ff6b6b', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>Acceso Restringido</h2>
+          <p style={{ color: 'var(--on-surface-variant)', fontSize: '0.9rem', marginBottom: '2rem' }}>
+            Tu usuario ({user.email}) no cuenta con permisos administrativos en la Bóveda de Zafhira.
+          </p>
+          <form action="/auth/signout" method="post">
+            <button type="submit" style={{
+              background: 'var(--surface-container)',
+              border: '1px solid var(--outline-variant)',
+              color: 'var(--on-surface)',
+              padding: '10px 20px',
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              fontSize: '0.8rem'
+            }}>
+              Cerrar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    )
   }
 
   return (
