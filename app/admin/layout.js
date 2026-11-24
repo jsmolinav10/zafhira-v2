@@ -70,6 +70,9 @@ export default async function AdminLayout({ children }) {
           <Link href="/admin/pedidos" style={{ display: 'block', padding: '10px 16px', color: 'var(--on-surface-variant)', textDecoration: 'none' }}>
             <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>📦 Pedidos</span>
           </Link>
+          <Link href="/admin/cotizaciones" style={{ display: 'block', padding: '10px 16px', color: 'var(--on-surface-variant)', textDecoration: 'none' }}>
+            <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>Cotizaciones</span>
+          </Link>
           <Link href="/admin/orfebres" style={{ display: 'block', padding: '10px 16px', color: 'var(--on-surface-variant)', textDecoration: 'none' }}>
             <span style={{ fontSize: '0.85rem', letterSpacing: '0.05em' }}>Acceso Orfebres</span>
           </Link>
